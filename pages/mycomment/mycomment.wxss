@@ -1,0 +1,109 @@
+/* pages/mycomment.wxss */
+.page{
+background-color: "#980000";
+fill-opacity: 0.8;
+}
+
+button {
+  margin-bottom: 8rpx;
+  background-color: rgba(5, 119, 52, 0.288); 
+}
+
+.username, .date, .like {
+font-size: 10pt;
+padding-bottom: 1rpx;
+}
+
+.like{
+padding-top: 3rpx;
+/**padding-left: 115rpx;**/
+}
+
+.header {
+/*padding: 10px, 10px, 10px, 10px*/
+margin-top: 10rpx;
+margin-left: 10rpx;
+color: "##980000";
+background-color: "#980000";
+fill-opacity: 0.5; 
+}
+
+.page__desc {
+font-size: 10pt;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.centered-btn {
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full height of the viewport */
+}
+ 
+.weui-btn {
+  display: inline-block; /* 使按钮可以被文本对齐属性影响 */
+  margin: 0 10px; 
+}
+
+.weui-cell {
+  display: flex;
+  align-items: center; /* 垂直居中 */
+}
+
+.weui-cell__bd {
+  flex: 1; /* 让子元素充满父元素的空间 */
+  text-align: left; /* 水平居中 */
+}
+
+.weui-textarea {
+  width: 100%; /* 设置宽度为100% */
+  box-sizing: border-box; /* 防止padding影响宽度 */
+  padding: 5px; /* 设置padding */
+  height: 100px;
+}
+
+.detailText { 
+  height: 400rpx; 
+  width: 100%;  
+  border-bottom:
+  5rpx solid #efeff3;
+     }
+  .inp { 
+   margin: 20rpx 0rpx 20rpx 30rpx; 
+   width: 100%;
+    }
+  .an { 
+   height: 80rpx; 
+   width: 200rpx;
+   font-size: 38rpx; 
+   background-color: rgba(73, 226, 137, 0.288); 
+   font-weight: 600;  color: white;}
+   button::after {  border: none;
+  }
+  .an1 {  
+  margin-top: 90rpx;
+  }
+  
+  .imgs image{
+    width: 200rpx;
+    height: 200rpx;
+  }
+   
+  .imgList {
+    width: 200rpx;
+    height: 200rpx;
+  }
+
+  .btn {
+    padding: 15rpx 20rpx;
+    color: rgb(5, 0, 0);
+  }
+  .input{
+    /* 边框 */
+    border:1px solid rgb(112, 112, 112);
+    padding: 10rpx;
+  }
+  
