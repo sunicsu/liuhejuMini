@@ -12,7 +12,32 @@ Page({
     shopping: [],
     totalPrice: 0,
     totalNum: '0',
-    showCartDetail: false
+    showCartDetail: false,
+    navLeftItems: [
+      {
+      category: '分类1',
+      shop:[{
+        shoptitle: "轮胎1",
+        image: ''
+      }],
+      },
+      {
+        category: '分类2',
+        shop:[{
+          shoptitle: "轮胎1",
+          image: ''
+        }],
+        },
+        {
+        category: '分类3',
+        shop:[{
+          shoptitle: "轮胎1",
+          image: ''
+        }],
+        },],  
+    navRightItems: [],  
+    curNav: 1,  
+    curIndex: 0  
   },
   //事件处理函数
   /*bindViewTap: function() {
@@ -44,6 +69,8 @@ Page({
         //console.log('get menu', res.data.foods)
         that.setData({
           menu: res.data.foods
+          // navLeftItems: res.data
+          // navRightItems: res.data
         })
         for (var i = 0; i < that.data.menu.length; i++) {
           //that.data.menu[i].index = i.toString();
@@ -64,6 +91,18 @@ Page({
     })
   },
 
+  //事件处理函数  
+  switchRightTab: function(e) {  
+    // 获取item项的id，和数组的下标值  
+    let id = e.target.dataset.id,  
+        index = parseInt(e.target.dataset.index);  
+    // 把点击到的某一项，设为当前index  
+    this.setData({  
+        curNav: id,  
+        curIndex: index  
+    })  
+  },
+  
   //保留当前页面，跳转到应用内的某个页面，使用wx.navigateBack可以返回到原页面。
   to_comment:function() {
     wx.navigateTo({

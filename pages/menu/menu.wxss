@@ -27,23 +27,61 @@
 }*/
 .weui-navbar {
   background-color: white;
+  height: 70rpx;
+  align-items: center;
+  justify-content: center;
+}
+.weui-navbar__item {
+  text-align: center;
 }
 
 /**菜单列表**/
 .weui-cells {
-  margin-top: 12%;
-  height: 1020rpx;
+  /* margin-top: 0;
+  height: 100%; */
+  display: box;
+  display:-webkit-box;
+  display:-moz-box;
+  margin-top: 0;
+  background-color:#fff;
+  width:240px;
+  height:75px;
+  /* border:0px solid #fff; */
+  /* margin:0 auto; */
 }
-.weui-cell__ft {
-  display: flex;
-  flex-direction: row;
+
+.weui-cell1 {
+  box-flex:1;
+  -moz-box-flex:1;
+  -webkit-box-flex:1;
+  background-color:#fff;
 }
+
+.weui-cell2 {
+  background-color:#fff;
+  box-flex:1;
+  -moz-box-flex:1;
+  -webkit-box-flex:1;
+  margin-left: 8px;
+}
+
+.weui-cell3 {
+  background-color:#fff;
+  box-flex:1;
+  -moz-box-flex:1;
+  -webkit-box-flex:1;
+  text-align: right;
+  margin-right: 8px;
+}
+
 .food-name {
-  font-size: 35rpx;
+  font-size: 36rpx;
+  margin-right:10rpx;
 }
 .food-description {
   font-size: 30rpx;
-  color: gainsboro;
+  margin-right:10rpx;
+  color: rgb(116, 113, 113);
 }
 .food-price {
   font-size: 35rpx;
@@ -165,5 +203,75 @@
 }
 
 .menu-img {
-  border-radius: 8rpx;
+  border-radius: 0rpx;
 }
+.menu-container { 
+  /* margin-top: 12%; */
+  position:absolute;
+  left:0rpx;
+  top:70rpx;
+  width: 100%; /* 宽度占屏幕的100% */
+  height: 90%; /* 高度占屏幕的100% */
+  background-color: #fff; /* 背景颜色 */
+  }
+.nav_left { 
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 24%;
+  height: 100%x;
+  background: #fff;
+  text-align: center;
+  }
+.nav_left .nav_left_items{  
+  /*每个高30px*/  
+  height: 60px;  
+  /*垂直居中*/  
+  line-height: 60px;  
+  /*再设上下padding增加高度，总高42px*/  
+  padding: 6px 0;  
+  /*只设下边线*/  
+  border-bottom: 1px solid #dedede;  
+  /*文字14px*/  
+  font-size: 14px;  
+}  
+/*左侧栏list的item被选中时*/  
+.nav_left .nav_left_items.active{  
+  /*背景色变成白色*/  
+  background: #fff;  
+}  
+.nav_right { 
+  position: absolute;
+  top: 0px;
+  left: 80px;
+  width: 76%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  /* box-sizing: border-box; */
+  background: #fff;
+  /* text-align: center; */
+  }
+.nav_right .nav_right_items{  
+  /*浮动向左*/  
+  float: left;  
+  /*每个item设置宽度是33.33%*/  
+  width: 33.33%;  
+  height: 80px;  
+  text-align: center;  
+}  
+.nav_right .nav_right_items image{  
+  /*被图片设置宽高*/  
+  width: 50px;  
+  height: 30px;  
+}  
+.nav_right .nav_right_items text{  
+  /*给text设成块级元素*/  
+  display: block;  
+  margin-top: 5px;  
+  font-size: 10px;  
+  /*设置文字溢出部分为...*/  
+  overflow: hidden;  
+  white-space: nowrap;  
+  text-overflow: ellipsis;  
+} 

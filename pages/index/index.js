@@ -9,7 +9,33 @@ Page({
     motto: 'ChickenDinner8！',
     userInfo: {},
     hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    book: '预订',
+    grids: [{
+      "name": "包间1"
+    }, {
+      "name": "包间2"
+    },{
+      "name": "包间3"
+    },{
+      "name": "包间4"
+    },{
+      "name": "包间5"
+    },{
+      "name": "包间6"
+    },{
+      "name": "卡座1"
+    },{
+      "name": "卡座2"
+    },{
+      "name": "卡座3"
+    },{
+      "name": "卡座4"
+    },{
+      "name": "卡座5"
+    },{
+      "name": "卡座6"
+    }], // 九宫格内容
   },
   //事件处理函数
   bindViewTap: function() {
