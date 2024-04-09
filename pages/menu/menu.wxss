@@ -238,7 +238,8 @@
 /*左侧栏list的item被选中时*/  
 .nav_left .nav_left_items.active{  
   /*背景色变成白色*/  
-  background: #fff;  
+  background: #f0f4f7;
+  color: #ed1000;
 }  
 .nav_right { 
   position: absolute;

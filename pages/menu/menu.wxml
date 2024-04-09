@@ -32,20 +32,19 @@
       </view>
       <!--</view>-->
       <view class="menu-container">
+      <!-- 左侧栏 -->
         <scroll-view scroll-y='true' class="nav_left" >
-          <block class="nav_left_items" wx:for="{{navLeftItems}}" wx:key="index" >  
-
-            <!--当前项的id等于item项的id，那个就是当前状态-->  
-            <!--用data-index记录这个数据在数组的下标位置，使用data-id设置每个item的id值，供打开2级页面使用-->  
-            <!-- <view class="nav_left_items {{curNav == item.id ? 'active' : ''}}"
-             bindtap="switchRightTab" data-index="{{index}}" data-id="{{item.id}}">{{item.tree.desc}}</view>   -->
-            <view class="nav_left_items">{{item.category}}</view>  
+          <block class="nav_left_items" wx:for="{{navLeftItems}}" wx:for-index="idx" wx:for-item="itemName"wx:key="this" >  
+            <view class="nav_left_items {{curNav == idx ? 'active' : ''}}" bindtap="switchRightTab" data-index="{{index}}" data-id="{{item.id}}" id="{{idx}}">{{itemName.name}}</view>  
           </block>  
         </scroll-view>
-        <scroll-view scroll-y="true" class="nav_right" >
-          <view wx:for="{{menu}}" wx:key="menu_block">
+        <!--右侧栏-->
+        <!--如果使用 scroll-into-view 属性，必须设置 scroll-view 的高度，且最好是动态获取屏幕高度 -->
+        <!-- scroll-into-view 属性 值应为某子元素id（id不能以数字开头）。设置哪个方向可滚动，则在哪个方向滚动到该元素 -->
+        <scroll-view scroll-y="true" class="nav_right" style="height:{{winHeight}}px;" scroll-into-view="{{scrollTopId}}" croll-with-animation="true">
+          <view wx:for="{{menu}}" wx:key="menu_block" bindscroll="scrollTop">
             <template is="menuItem" data="{{...item}}"/>
-          </view> 
+          </view> +
         </scroll-view>
     </view>
 

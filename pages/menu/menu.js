@@ -13,28 +13,7 @@ Page({
     totalPrice: 0,
     totalNum: '0',
     showCartDetail: false,
-    navLeftItems: [
-      {
-      category: '分类1',
-      shop:[{
-        shoptitle: "轮胎1",
-        image: ''
-      }],
-      },
-      {
-        category: '分类2',
-        shop:[{
-          shoptitle: "轮胎1",
-          image: ''
-        }],
-        },
-        {
-        category: '分类3',
-        shop:[{
-          shoptitle: "轮胎1",
-          image: ''
-        }],
-        },],  
+    navLeftItems: [],  
     navRightItems: [],  
     curNav: 1,  
     curIndex: 0  
@@ -45,6 +24,20 @@ Page({
       url: '../logs/logs'
     })
   },*/
+  onReady: function () {
+    // 生命周期函数--监听页面初次渲染完成
+    // var listChild1 = list.List[0];
+    var that = this;
+    // 获取可视区高度
+    wx.getSystemInfo({
+      success: function (res) {
+        that.setData({
+          // list: listChild1,
+          winHeight: res.windowHeight,
+        })
+      }
+    })
+  },
   onLoad: function () {
     let tableInfo = wx.getStorageSync('tableInfo')
     this.setData({
@@ -56,8 +49,23 @@ Page({
       icon: 'loading',
       duration: 3000000
     })
-    // request 
+    // request get Goodscetogory
     var that = this
+    wx.request({
+      url: 'http://127.0.0.1:8000/api/CategoryViewset',
+      method: 'GET',
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function(res) {
+        wx.hideToast();
+        // console.log('get CategoryViewset', res)
+        that.setData({
+           navLeftItems: res.data
+        })
+      },
+    })
+    // get goods
     wx.request({
       url: 'http://127.0.0.1:8000/api/menu/' + this.data.tableInfo.restaurantId.toString(),
       method: 'GET',
@@ -66,7 +74,7 @@ Page({
       },
       success: function(res) {
         wx.hideToast();
-        //console.log('get menu', res.data.foods)
+        // console.log('get menu', res)
         that.setData({
           menu: res.data.foods
           // navLeftItems: res.data
@@ -93,14 +101,32 @@ Page({
 
   //事件处理函数  
   switchRightTab: function(e) {  
-    // 获取item项的id，和数组的下标值  
-    let id = e.target.dataset.id,  
-        index = parseInt(e.target.dataset.index);  
-    // 把点击到的某一项，设为当前index  
-    this.setData({  
-        curNav: id,  
-        curIndex: index  
-    })  
+    var that = this
+    var id = e.target.id;
+    var category_id =id+1
+    console.log(typeof id)
+    console.log(id)
+    // get category dish
+    wx.request({
+      url: 'http://127.0.0.1:8000/api/get_category_dish/' + this.data.tableInfo.restaurantId.toString() + '/' + category_id,
+      method: 'GET',
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function(res) {
+        wx.hideToast();
+        // console.log('get menu', res)
+        that.setData({
+          menu: res.data.foods
+        })
+      },
+    })
+    this.setData({
+      // 动态把获取到的 id 传给 scrollTopId
+      scrollTopId: id,
+      // 左侧点击类样式
+      curNav:id
+    })
   },
   
   //保留当前页面，跳转到应用内的某个页面，使用wx.navigateBack可以返回到原页面。
