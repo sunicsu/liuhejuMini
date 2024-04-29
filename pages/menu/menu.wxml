@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<template name="menuItem" >
+<!-- <template name="menuItem" >
   <view class="weui-cells">
        <view>
             <image class="weui-cell1" src="{{image}}" style="width: 150rpx; height: 150rpx;"></image>
@@ -9,12 +9,12 @@
             <view class="food-description">{{description}}</view>                        
         </view>
         <view class="weui-cell3">
-          <view class="food-price">￥{{price}}</view>
+          <view class="food-price">￥{{price}}</view> -->
           <!-- <text> \n </text> -->
-          <image src="../../images/add.png" style="width: 50rpx; height: 50rpx;" data-index="{{index}}" id="{{index}}" bindtap='addDish'></image>
+          <!-- <image src="../../images/add.png" style="width: 50rpx; height: 50rpx;" data-index="{{index}}" id="{{id}}" bindtap='addDish'></image>
         </view>
   </view>
-</template>
+</template> -->
 
 <view class="page">
   <view class="page__bd">
@@ -33,42 +33,112 @@
       <!--</view>-->
       <view class="menu-container">
       <!-- 左侧栏 -->
-        <scroll-view scroll-y='true' class="nav_left" >
-          <block class="nav_left_items" wx:for="{{navLeftItems}}" wx:for-index="idx" wx:for-item="itemName"wx:key="this" >  
-            <view class="nav_left_items {{curNav == idx ? 'active' : ''}}" bindtap="switchRightTab" data-index="{{index}}" data-id="{{item.id}}" id="{{idx}}">{{itemName.name}}</view>  
-          </block>  
-        </scroll-view>
-        <!--右侧栏-->
-        <!--如果使用 scroll-into-view 属性，必须设置 scroll-view 的高度，且最好是动态获取屏幕高度 -->
-        <!-- scroll-into-view 属性 值应为某子元素id（id不能以数字开头）。设置哪个方向可滚动，则在哪个方向滚动到该元素 -->
-        <scroll-view scroll-y="true" class="nav_right" style="height:{{winHeight}}px;" scroll-into-view="{{scrollTopId}}" croll-with-animation="true">
-          <view wx:for="{{menu}}" wx:key="menu_block" bindscroll="scrollTop">
-            <template is="menuItem" data="{{...item}}"/>
-          </view> +
-        </scroll-view>
-    </view>
+      <scroll-view scroll-y='true' class="nav_left" scroll-with-animation>
+          <view class="nav_left_items {{index == currentIndex ? 'active' : ''}}" wx:for="{{leftMenuList}}" wx:key="*this" bindtap="switchRightTab" data-index="{{index}}">  
+            <view>{{item}}</view>
+          </view>
+      </scroll-view>
+        <!--右侧栏所有数据-->
+      <scroll-view scroll-y="true" class="nav_right" style="height:{{winHeight}}px;" scroll-top="{{scrollTop}}">
+        <block wx:for="{{rightContent}}" wx:for-index="outerindex" wx:for-item="itemName" wx:key="*this" >         
+          <view class="minl" >---{{itemName.cat_name}}---</view>
+          <navigator wx:for='{{itemName.children}}' wx:for-index="dishindex" wx:for-item="dish" wx:key="*this">
+            <view class="weui-cells">
+              <view>
+                <image class="weui-cell1" src="{{dish.image}}" style="width: 150rpx; height: 150rpx;"></image>
+              </view>
+              <view class="weui-cell2">
+                <view class="food-name">{{dish.food_name}}</view>
+                <view class="food-description">{{dish.description}}</view>                        
+              </view>
+              <view class="weui-cell3">
+                <view class="food-price">￥{{dish.price}}</view>
+                <!-- <text> \n </text> -->
+                <image src="../../images/add.png" style="width: 50rpx; height: 50rpx;"  bindtap='addDish' data-outerIndex="{{outerindex}}" data-dishIndex="{{dishindex}}" data-dishs="{{dish}}" data-dishid="{{id}}" ></image>
+              </view>
+          </view>
+          </navigator>
+    
+        </block>   
+        <!-- </view> -->
+      </scroll-view>
 
-  <view class="cart-detail" hidden="{{!showCartDetail||!totalNum}}">
-		  <view class="mask" bindtap="hideCartDetail"></view>	
-      <view class="cart-list">
-        <view class="item" wx:for="{{menu}}" wx:for-index="index" wx:if="{{menu[index].num!=0}}" wx:key="index">
-            <view class="name ellipsis">{{menu[index].food_name}}</view>
-            <view class="total">￥{{menu[index].price}}</view>
-            <view class="minus-btn" data-index="{{index}}" bindtap="tapMinusCart">-</view>
-            <view class="num">{{menu[index].num}}</view>
-            <view class="add-btn" data-index="{{index}}" bindtap="tapAddCart">+</view>
+      <view class="cart-detail" hidden="{{hideModal}}">
+        <view class="mask" bindtap="hideCartDetail"></view>	
+           <view class="cart-list">
+            <view class="item" wx:for="{{cartList}}" wx:for-index="index" wx:for-item="itemName" wx:key="this">              
+                <view class="name">{{itemName.food_name}}</view>
+                <view class="total">￥{{itemName.price}}</view>
+                <view class="minus-btn" data-dishs="{{itemName}}" bindtap="tapMinusCart">-</view>
+                <view class="num">{{itemName.num}}</view>
+                <view class="add-btn" data-dishs="{{itemName}}" bindtap="tapAddCart">+</view>
+          
+            </view>
+          </view>
+      </view>
+
+      <view class="bar">
+        <view class="cart" bindtap="handleCart">
+                <image src="../../images/cart.png" style="width: 100rpx; height: 100rpx;">
+                  <span class="cart-num" wx:if="{{totalNum!=0}}">{{totalNum}}</span>
+                </image>
+                <view class='cart-price'>共计 ￥{{totalPrice}}</view>
+              <button class="comfirm-button" type='primary' bindtap="to_submit">提交订单</button>
+          </view>
+      </view>
+
+    
+
+
+      </view>
+  </view>
+ 
+  <!-- 底部固定购物车 -->
+  <!-- <view class="cart">
+    <view class="cart_img_view" bindtap="handleCart">
+      <image animation="{{ani}}" src="/public/image/icon_cart.png" class="cart_img"></image>
+      <view class="cart_num" wx:if="{{totalNum > 0}}">
+        {{totalNum}}
+      </view>
+    </view>
+    <view class="cart_price">￥{{totalPrice}}</view>
+    <view class="cart_text" bindtap="placeTheOrder">去支付</view>
+  </view> -->
+  <!-- 购物车展示 -->
+  <!-- <modal hideModal="{{hideModal}}">
+    <view class="cartBox">
+      <view class="top">
+        <view class="selectAll">
+          <checkbox-group bindchange="handleAllCheck">
+            <checkbox color="#fff" checked="{{allChecked}}"></checkbox>
+          </checkbox-group>
+          <view>已选购商品（{{totalNum}}件）</view>
+        </view>
+        <view class="clearCart" bindtap="handleClearCart">
+          <image src="/public/image/icon_del.png"></image>
+          <view>清空</view>
         </view>
       </view>
-	</view>
-      <view class="bar">
-          <view class="cart" bindtap="showCartDetail">
-            <image src="../../images/cart.png" style="width: 100rpx; height: 100rpx;">
-              <span class="cart-num" wx:if="{{totalNum!=0}}">{{totalNum}}</span>
-            </image>
-            <view class='cart-price'>共计 ￥{{totalPrice}}</view>
+      <view class="bottom">
+        <view wx:for="{{cartList}}" wx:key="index" class="cart-item">
+          <view class="cart-item-left">
+            <checkbox-group bindchange="checkboxChange" data-id="{{item.id}}">
+              <checkbox color="#fff" checked="{{item.checked}}" value="{{item.id}}"></checkbox>
+            </checkbox-group>
+            <view class="cart-item-left-content">
+              <image></image>
+              <view class="info">
+                <view class="name">{{item.name}}</view>
+                <view class="remark">{{item.remark}}</view>
+                <view class="price">￥{{item.price}}</view>
+              </view>
+            </view>
           </view>
-          <button class="comfirm-button" type='primary' bindtap="to_submit">提交订单</button>
+          <view class="cart-item-right">
+            <van-stepper async-change min="0" show-minus="{{item.num == 0 ? false : true}}" input-width="{{item.num == 0 ? 0 : 32}}" value="{{item.num}}" disable-input bind:plus="doPlusNum" bind:minus="doMinusNum" data-item="{{item}}"></van-stepper>
+          </view>
+        </view>
       </view>
-
-  </view>
+    </view>
+  </modal> -->
 </view>

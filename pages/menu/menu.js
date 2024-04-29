@@ -1,6 +1,15 @@
 //menu.js
 //获取应用实例
-//const app = getApp()
+const app = getApp()
+const getRoundeNumber = num => {
+  if (!Number.prototype._toFixed) {
+      Number.prototype._toFixed = Number.prototype.toFixed
+  }
+  Number.prototype.toFixed = function(n) {
+      return (this + 1e-14)._toFixed(n)
+  }
+  return Number(num).toFixed(2)
+}
 
 Page({
   data: {
@@ -8,22 +17,37 @@ Page({
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'), */
-    menu: [],
+    menu: [], 
+    newmenu: [], 
+    menuall: [],
+    productList: [],
     shopping: [],
     totalPrice: 0,
     totalNum: '0',
     showCartDetail: false,
-    navLeftItems: [],  
-    navRightItems: [],  
-    curNav: 1,  
-    curIndex: 0  
+    leftMenuList: [],
+    rightContent: [],
+    currentIndex: 0,
+    winHeight: 0,
+    // navRightItems: [],  
+    num: 0,
+    scrollTop: 0,
+    hideModal: true,
+    cartList: [],
+    allChecked: true
+
   },
+
+  // 为了方便使用数据，在data同层级下创建Cates空数组接收接口返回的数据
+  Cates: [],
   //事件处理函数
   /*bindViewTap: function() {
     wx.navigateTo({
       url: '../logs/logs'
     })
   },*/
+
+  
   onReady: function () {
     // 生命周期函数--监听页面初次渲染完成
     // var listChild1 = list.List[0];
@@ -38,6 +62,41 @@ Page({
       }
     })
   },
+   // 菜品分组
+   groupByKeyword: function(info) { 
+    // var that = this
+    let groupedData = {};
+    if (Array.isArray(info)){
+      info.forEach(item => {
+      if (!groupedData[item.categoryname]) {
+        groupedData[item.categoryname] = [];
+      }
+      groupedData[item.categoryname].push(item);
+    });
+    }      
+    return groupedData;
+   
+    },
+    //返回数据生成新数组
+    createNewArray: function(menuall){
+        var array = new Array()
+         for (var i =0; i<that.data.menuall.length; i++){
+          that.data.newmenu = that.data.menuall[i].children
+          for (var j = 0; j < that.data.newmenu.length; j++){
+            var keys = Object.keys(that.data.newmenu)[j]
+            var values = that.data.newmenu[keys]
+            // var array = new Array()
+            var info = {}
+            info['id'] = keys
+            info['value'] = values
+            array.push(info)
+            // that.data.menu.push(that.data.menuall[i].children)
+          }
+        }
+        that.data.menu = array
+        console.log("array", array)
+    },
+
   onLoad: function () {
     let tableInfo = wx.getStorageSync('tableInfo')
     this.setData({
@@ -51,46 +110,61 @@ Page({
     })
     // request get Goodscetogory
     var that = this
-    wx.request({
-      url: 'http://127.0.0.1:8000/api/CategoryViewset',
-      method: 'GET',
-      header: {
-        'content-type': 'application/json'
-      },
-      success: function(res) {
-        wx.hideToast();
-        // console.log('get CategoryViewset', res)
-        that.setData({
-           navLeftItems: res.data
-        })
-      },
-    })
+    // wx.request({
+    //   url: 'http://127.0.0.1:8000/api/CategoryViewset',
+    //   method: 'GET',
+    //   header: {
+    //     'content-type': 'application/json'
+    //   },
+    //   success: function(res) {
+    //     wx.hideToast();
+    //     that.setData({
+    //        navLeftItems: res.data
+    //     })
+    //   },
+    // })
+    
     // get goods
     wx.request({
-      url: 'http://127.0.0.1:8000/api/menu/' + this.data.tableInfo.restaurantId.toString(),
+      // url: 'http://127.0.0.1:8000/api/menu/' + this.data.tableInfo.restaurantId.toString(),
+      url: 'http://127.0.0.1:8000/api/category_dish',
       method: 'GET',
       header: {
         'content-type': 'application/json'
       },
       success: function(res) {
         wx.hideToast();
-        // console.log('get menu', res)
+        that.data.menu = res.data;
+        that.Cates = that.data.menu;
+        wx.setStorageSync("cates", { time: Date.now(), data: that.Cates });
+        let leftMenuList = that.Cates.map(v=>v.cat_name)
+        // 构造右侧的大菜单数据
+        // let rightContent = that.Cates.map(v=>v.children);
+        let rightContent = that.data.menu;
         that.setData({
-          menu: res.data.foods
-          // navLeftItems: res.data
-          // navRightItems: res.data
-        })
-        for (var i = 0; i < that.data.menu.length; i++) {
-          //that.data.menu[i].index = i.toString();
-          var param = {}
-          var string = 'menu[' + i + '].index'
-          param[string] = i
-          that.setData(param)
-          string = 'menu[' + i + '].num'
-          param[string] = 0
-          that.setData(param)
-        }
-        //console.log('set menu', that.data.menu)
+          menu: res.data,
+          leftMenuList,
+          rightContent
+        }) 
+
+        // that.data.rightContent = that.data.menu[0].children
+        // console.log("rightContent", that.data.rightContent)
+        console.log("get menu", that.data.menu)
+        console.log("get leftMenuList", that.data.leftMenuList)
+        console.log("get rightContent", that.data.rightContent)
+
+        var k = 0
+        for (var i = 0; i < that.data.menu.length; i++){
+          // var k = 0
+          for (var j = 0; j < that.data.menu[i].children.length; j++){
+            that.data.menu[i].children[j].index = k
+            that.data.menu[i].children[j].num = 0
+            that.setData(that.data.menu[i])
+            k++
+          } 
+        } 
+
+      
       },
 
       /*fail: function(res) {
@@ -98,35 +172,35 @@ Page({
       }*/
     })
   },
-
-  //事件处理函数  
+  
+  
+   //事件处理函数  
   switchRightTab: function(e) {  
-    var that = this
-    var id = e.target.id;
-    var category_id =id+1
-    console.log(typeof id)
-    console.log(id)
-    // get category dish
-    wx.request({
-      url: 'http://127.0.0.1:8000/api/get_category_dish/' + this.data.tableInfo.restaurantId.toString() + '/' + category_id,
-      method: 'GET',
-      header: {
-        'content-type': 'application/json'
-      },
-      success: function(res) {
-        wx.hideToast();
-        // console.log('get menu', res)
-        that.setData({
-          menu: res.data.foods
+    const Cates = wx.getStorageSync('cates');
+    //  2 判断  
+    if(!Cates){
+      // 不存在 发送请求获取数据
+      this.onLoad();
+    }else{
+      // 有旧的数据 定义过期时间5分钟 1000ms = 1s
+      if(Date.now()-Cates.time>1000*300){
+        // 重新发送请求
+        this.onLoad();
+      }else{
+        this.Cates = Cates.data;
+        const {index} = e.currentTarget.dataset;
+        let rightContent = this.Cates[index];
+        var array = new Array()
+        array.push(rightContent)
+        this.setData({
+          currentIndex: index,
+          rightContent: array,
+          scrollTop: 0
         })
-      },
-    })
-    this.setData({
-      // 动态把获取到的 id 传给 scrollTopId
-      scrollTopId: id,
-      // 左侧点击类样式
-      curNav:id
-    })
+        console.log("get rightContent again", this.data.rightContent)
+      }
+    }
+// debugger;
   },
   
   //保留当前页面，跳转到应用内的某个页面，使用wx.navigateBack可以返回到原页面。
@@ -176,26 +250,190 @@ Page({
     }
     
   },
-
+  // 点击购物车
+  handleCart() {
+    this.setData({
+      cartList: wx.getStorageSync('cartDish'),
+    })
+    if(wx.getStorageSync('cartDish') && wx.getStorageSync('cartDish').length != 0) {
+      this.setData({hideModal: false})
+      this.setCart()
+    } else {
+      wx.showToast({
+        title: '请添加商品',
+        icon: 'none'
+      })
+    }
+  },
   // 将菜品加入购物车
   addDish: function(event) {  
+
+    console.log(event)
     var newMenu = this.data.menu
-    var obj = this.data.menu[event.target.dataset.index]
-    newMenu[event.target.dataset.index].num++
-    this.setData ({menu:newMenu})
-    this.setData({ totalPrice: this.data.totalPrice + parseFloat(obj.price) })
-    this.setData({ totalNum: parseInt(this.data.totalNum) + 1 })
-    console.log('count ', obj.num)
+    // 选中的商品信息
+    let productInfo = event.currentTarget.dataset.dishs
+    // 先获取缓存中的商品信息
+    let cart = wx.getStorageSync('cartDish') || []
+    // 判断当前商品是否第一次添加
+    // debugger;
+    let index = cart.findIndex(v => v.food_id === productInfo.food_id)
+    if(index === -1) { 
+      // 第一次添加则把商品信息及初始化的数量和选中状态一起存入
+      cart.push({...productInfo, num: 1, checked: true})
+      // debugger;
+    } else {
+      // 前面添加过的话只需要更改商品中的数量即可
+      cart[index].num = cart[index].num + 1
+    }
+    // 把更改后的购物车数据重新存入缓存
+    wx.setStorageSync('cartDish', cart)
+    
+    this.setData({cartList: cart})
+    console.log("get cartlist", this.data.cateList)
+    wx.showToast({
+      title: '商品已放入购物车',
+      icon: 'none'
+    })
+    // 加入购物车给购物车加一个抖动的动画
+    this.cartWwing()
+    // 设置购物车状态（勾选、全选、总数、总价）
+    this.setCart()
+  
+
   },
   // 将菜品从购物车删除
   removeDish: function(event) {
-    var newMenu = this.data.menu
-    var obj = this.data.menu[event.target.dataset.index]
-    newMenu[event.target.dataset.index].num--
-    this.setData ({menu:newMenu})
-    this.setData({ totalPrice: this.data.totalPrice - parseFloat(obj.price) })
-    this.setData({ totalNum: parseInt(this.data.totalNum) - 1 })
+    let that = this
+    let productInfo = event.currentTarget.dataset.dishs
+    let cart = wx.getStorageSync('cartDish') || []
+    // 找到缓存中对应的商品
+    let index = cart.findIndex(v => v.food_id === productInfo.food_id)
+    // 商品数量大于1则直接减去数量，然后设置购物车状态
+
+    if(cart[index].num > 1) {
+      cart[index].num--;
+      this.setCart(cart)
+    } else if(cart[index].num == 1) {
+      // 商品数量为1则给出弹窗提示
+      cart[index].num = 0
+      wx.showModal({
+        content: '确定不要了吗？',
+        success(res) {
+          if(res.confirm) {
+            // 确定移出则删除对应商品信息后设置购物车状态
+            cart.splice(index,1)
+          } else if(res.cancel) {
+            // 取消后商品数量不做改变
+            cart[index].num = 1
+          }
+          that.setCart(cart)
+        }
+      })
+    }
   },
+  // 设置购物车状态
+  setCart(cart) {
+    cart = cart ? cart : wx.getStorageSync('cartDish') || []
+   
+    if(cart.length === 0) {
+      this.setData({hideModal: false})
+    }
+    let allChecked = true, totalNum = 0, totalPrice = 0
+    cart.forEach(v => {
+      if(v.checked) {
+      	// 计算已经勾选商品的总价及总数
+        totalPrice += getRoundeNumber(v.price * v.num) * 1
+        totalNum += v.num
+      } else {
+      	// 购物车中存在商品且没有商品被勾选，则全选按钮取消勾选
+        allChecked = false
+      }
+    })
+    // 购物车中不存在商品，则全选按钮取消勾选
+    allChecked = cart.length != 0 ? allChecked : false
+    wx.setStorageSync('cartDish', cart)
+    this.setData({
+      allChecked,
+      totalNum,
+      totalPrice,
+      cartList: cart
+    })
+    this.handleList()
+  },
+
+
+
+  
+  // 加入购物车动画
+  cartWwing: function(){
+    var animation = wx.createAnimation({
+      duration: 100,
+      timingFunction: 'ease-in'
+    })
+    animation.translateX(6).rotate(21).step()
+    animation.translateX(-6).rotate(-21).step()
+    animation.translateX(0).rotate(0).step()
+    // 导出动画
+    this.setData({
+      ani: animation.export()
+    })
+  },
+  // 购物车勾选
+  checkboxChange(e) {
+    console.log(e);
+    let { id } = e.currentTarget.dataset
+    let cartList = JSON.parse(JSON.stringify(this.data.cartList))
+    let index = cartList.findIndex(v => v.id === id)
+    cartList[index].checked = !cartList[index].checked
+    this.setCart(cartList)
+  },
+  // 清空购物车
+  handleClearCart() {
+    let that = this
+    wx.showModal({
+      content:'确定不要了吗？',
+      success(res) {
+        if(res.confirm) {
+          that.setCart([])
+        } else if(res.cancel) {
+          console.log('用户点击取消');
+        }
+      }
+    })
+  },
+  handleCheck(e) {
+    let { id } = e.currentTarget.dataset
+    let cartList = JSON.parse(JSON.stringify(this.data.cartList))
+    let index = cartList.findIndex(v => v.id === id)
+    cartList[index].checked = !cartList[index].checked
+    // 设置购物车状态
+    this.setCart(cartList)
+  },
+  // 全选
+  handleAllCheck() {
+    let { cartList,allChecked } = this.data
+    allChecked = !allChecked
+    cartList.forEach(v => v.checked = allChecked)
+    // 设置购物车状态
+    this.setCart(cartList)
+  },
+  // 购物车回填商品列表数据
+  handleList() {
+    let cart = wx.getStorageSync('cartDish') || []
+    let productList = this.data.productList.map(item => {
+      delete item.num
+      return item
+    })
+    productList.map(item => {
+      cart.map(v => {
+        if(item.id === v.id) {
+          item.num = v.num
+        } 
+      })
+    })
+    this.setData({productList})
+  },
+
   showCartDetail: function () {
     this.setData({
       showCartDetail: !this.data.showCartDetail
@@ -206,6 +444,20 @@ Page({
       showCartDetail: false
     });
   },
+  handleClearCart() {
+    let that = this
+    wx.showModal({
+      content:'确定不要了吗？',
+      success(res) {
+        if(res.confirm) {
+          that.setCart([])
+        } else if(res.cancel) {
+          console.log('用户点击取消');
+        }
+      }
+    })
+  },
+  
   tapAddCart: function (event) {
     this.addDish(event)
   },
