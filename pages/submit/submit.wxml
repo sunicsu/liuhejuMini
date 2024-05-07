@@ -10,7 +10,7 @@
         <view class="sub-cart-title">
             <view class='name'>{{food_name}}</view>
             <view class="amount">x{{num}}</view>
-            <view class="s_price">￥{{price}}</view>
+            <view class="s_price">￥{{price|Int}}</view>
         </view>
     </view>
   </view>

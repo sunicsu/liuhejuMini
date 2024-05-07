@@ -1,6 +1,6 @@
 // pages/submit/submit.js
 // const ERequest = require('../../utils/util.js').ERequest;
-const app = getApp()
+var app = getApp()
 const cookieUtil = require('../../utils/cookie/Cookie.js')
 Page({
 
@@ -22,7 +22,9 @@ Page({
    */
   
   onLoad: function (options) {
-    let menu = wx.getStorageSync('data')
+    let id = wx.getStorageSync('tableInfo').tableId
+    let menu = wx.getStorageSync('cartDish' + id)
+    // debugger;
     this.setData({
       //order: menu
       order: menu.filter( (res) => res.num > 0)
@@ -76,6 +78,19 @@ Page({
 
   },
 
+  // 修改包间状态
+  changeStatus: function(tableId) {
+    var grid = app.globalData.grids
+    for (var i=0; i<grid.length; i++) {
+      if (grid[i].tableId == tableId){
+        grid[i].status = 'false'
+      }
+    }
+    app.globalData.grids = grid
+    console.log('get grids', app.globalData.grids)
+  },
+
+  
   submitOrder: function () {
     var that = this
     var value = cookieUtil.getCookieFromStorage('cookie')
@@ -115,6 +130,8 @@ Page({
     })
   },
 
+
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -126,7 +143,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+    this.setData({
+      grids: app.globalData.grids
+    })
   },
 
   /**

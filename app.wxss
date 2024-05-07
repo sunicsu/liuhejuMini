@@ -9,3 +9,40 @@
   padding: 50rpx 0;
   box-sizing: border-box;
 } 
+/* botton的基本样式 */
+
+.scanBtn{
+  margin-top:30rpx;
+  width:30%;
+  height:80rpx;
+  line-height: 80rpx;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:40rpx;
+  font-weight:bold;
+  }
+
+.submitBtn{
+margin-top:0rpx;
+width:80%;
+height:65rpx;
+line-height: 65rpx;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:32rpx;
+font-weight:bold;
+}
+
+/* botton的启用样式 */
+.submitBtn.active{
+color:#fff !important;
+background:#ff9537 !important;
+}
+
+/* botton的禁用样式 */
+.submitBtn.gray{
+color:#fff !important;
+background:#d9d9d9 !important;
+}

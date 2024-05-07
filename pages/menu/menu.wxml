@@ -52,7 +52,7 @@
                 <view class="food-description">{{dish.description}}</view>                        
               </view>
               <view class="weui-cell3">
-                <view class="food-price">￥{{dish.price}}</view>
+                <view class="food-price">￥{{dish.price|Int}}</view>
                 <!-- <text> \n </text> -->
                 <image src="../../images/add.png" style="width: 50rpx; height: 50rpx;"  bindtap='addDish' data-outerIndex="{{outerindex}}" data-dishIndex="{{dishindex}}" data-dishs="{{dish}}" data-dishid="{{id}}" ></image>
               </view>
@@ -68,7 +68,7 @@
            <view class="cart-list">
             <view class="item" wx:for="{{cartList}}" wx:for-index="index" wx:for-item="itemName" wx:key="this">              
                 <view class="name">{{itemName.food_name}}</view>
-                <view class="total">￥{{itemName.price}}</view>
+                <view class="total">￥{{itemName.price|Int}}</view>
                 <view class="minus-btn" data-dishs="{{itemName}}" bindtap="tapMinusCart">-</view>
                 <view class="num">{{itemName.num}}</view>
                 <view class="add-btn" data-dishs="{{itemName}}" bindtap="tapAddCart">+</view>
@@ -142,3 +142,4 @@
     </view>
   </modal> -->
 </view>
+

@@ -11,31 +11,8 @@ Page({
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     book: '预订',
-    grids: [{
-      "name": "包间1"
-    }, {
-      "name": "包间2"
-    },{
-      "name": "包间3"
-    },{
-      "name": "包间4"
-    },{
-      "name": "包间5"
-    },{
-      "name": "包间6"
-    },{
-      "name": "卡座1"
-    },{
-      "name": "卡座2"
-    },{
-      "name": "卡座3"
-    },{
-      "name": "卡座4"
-    },{
-      "name": "卡座5"
-    },{
-      "name": "卡座6"
-    }], // 九宫格内容
+    grids: [] //包间数据
+    
   },
   //事件处理函数
   bindViewTap: function() {
@@ -43,46 +20,9 @@ Page({
       url: '../logs/logs'
     })
   },
-  // onReadCookies: function (){
-  //   wx.request({
-  //     url: app.globalData.baseUrl + '/buyer/session',
-  //     success(res) {
-  //       var cookie = cookieUtil.getSessionIDFromResponse(res)
-  //       console.log(cookie)
-  //     }
-  //   }
-  //   )
-  // },
-  // authorize: function () {
-  //   wx.login({
-  //     success: function(res){
-  //       var code = res.code
-  //       var appId = app.globalData.appId
-  //       var nickname = app.globalData.userInfo.nickName
-  //       wx.request({
-  //         url: app.globalData.baseUrl + '/buyer/session',
-  //         method: 'POST',
-  //         data: {
-  //           code: code,
-  //           appId: appId,
-  //           nickname: nickname
-  //         },
-  //         header: {
-  //           'content-type': 'application/json'
-  //         },
-  //         success: function(res){
-  //           wx.showToast({
-  //             title: '授权成功'
-  //           })
-  //           var cookie = cookieUtil.getSessionIDFromResponse(res)
-  //           cookieUtil.setCookieToStorage(cookie)
-  //           console.log(cookie)
-  //         }
-  //       })
-  //     }
-  //   })
-  // },
+  
   onLoad: function () {
+  
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -111,6 +51,21 @@ Page({
     }
   },
   onReady() {
+    var that = this
+    wx.request({
+      url: 'http://127.0.0.1:8000/api/TableViewset',
+      method: 'GET',
+      // header: header,
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function(res) {
+        wx.hideToast();
+        that.setData({
+           grids: res.data
+        })
+      },
+    })
   },
   getUserInfo: function(e) {
     console.log(e)
@@ -144,11 +99,15 @@ Page({
       }
     })
   },
-  to_menu_trick() {
+  to_menu_trick(event) {
+    let id = event.currentTarget.dataset.id
+    let status = event.currentTarget.dataset.status
     wx.setStorageSync('tableInfo', {
       "restaurantId": 4,
-      "tableId": '1'
+      "tableId": id,
+      "status": status
     });
+    // debugger;
     wx.navigateTo({
       url: '../menu/menu',
       success: function (res) {

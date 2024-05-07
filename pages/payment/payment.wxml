@@ -3,7 +3,8 @@
 	<view class="icon-box content">
         <icon class="okicon" type="success" size="93"></icon>
         <view class="icon-box__ctn"></view>
-        <view class="hint">订单已提交给商家</view>
+        <view class="hint">订单已提交给商家。</view>
+        <view class="hint">您可以就餐后在酒店现场支付！</view>
     </view>
 
     <view class="price content" >¥ {{totalPrice}}</view>

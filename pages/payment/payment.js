@@ -29,42 +29,42 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   //点击支付按钮进行支付
-  // payclick: function () {
-  //   var t = this;
-  //   wx.login({
-  //   //获取code换取openID
-  //   success: function (res) {
-  //     //code = res.code //返回code
-  //     console.log("获取code");
-  //     console.log(res.code);
-  //     var opid = t.getOpenId(res.code);
-  //     }
-  //   })
-  //   },
-  //   //获取openID
-  //   getOpenId: function (code) {
-  //     var that = this;
-  //     wx.request({
-  //     url: "https://api.weixin.qq.com/sns/jscode2session?appid=你的appid&secret=AppSecret(小程序密钥)&js_code=" + code + "&grant_type=authorization_code",
-  //     data: {},
-  //     method: 'GET',
-  //     success: function (res) {
-  //       console.log("获取openid")
-  //       console.log(res)
-  //       that.setData({
-  //         openid: res.data.openid,
-  //         session_key: res.data.session_key
-  //       })
-  //       that.generateOrder(res.data.openid)
-  //   },
-  //   fail: function () {
-  //   // fail
-  //   },
-  //   complete: function () {
-  //   // complete
-  //   }
-  //   })
-  //   },
+  payclick: function () {
+    var t = this;
+    wx.login({
+    //获取code换取openID
+    success: function (res) {
+      //code = res.code //返回code
+      console.log("获取code");
+      console.log(res.code);
+      var opid = t.getOpenId(res.code);
+      }
+    })
+    },
+    //获取openID
+    getOpenId: function (code) {
+      var that = this;
+      wx.request({
+      url: "https://api.weixin.qq.com/sns/jscode2session?appid=你的appid&secret=AppSecret(小程序密钥)&js_code=" + code + "&grant_type=authorization_code",
+      data: {},
+      method: 'GET',
+      success: function (res) {
+        console.log("获取openid")
+        console.log(res)
+        that.setData({
+          openid: res.data.openid,
+          session_key: res.data.session_key
+        })
+        that.generateOrder(res.data.openid)
+    },
+    fail: function () {
+    // fail
+    },
+    complete: function () {
+    // complete
+    }
+    })
+    },
     //生成商户订单
     generateOrder: function (openid) {
       var that = this

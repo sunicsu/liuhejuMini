@@ -221,7 +221,7 @@ Page({
 
   to_submit: function () {
     if (this.data.totalNum != '0') {
-      wx.setStorageSync('data', this.data.menu)
+      wx.setStorageSync('data', this.data.cartDish)
       wx.setStorageSync('totalPrice', this.data.totalPrice)
       wx.setStorageSync('totalNum', this.data.totalNum)
 
@@ -251,11 +251,13 @@ Page({
     
   },
   // 点击购物车
-  handleCart() {
+  handleCart(event) {
+    let id = wx.getStorageSync('tableInfo').tableId
     this.setData({
-      cartList: wx.getStorageSync('cartDish'),
+      cartList: wx.getStorageSync('cartDish' + id),
     })
-    if(wx.getStorageSync('cartDish') && wx.getStorageSync('cartDish').length != 0) {
+    // debugger;
+    if(wx.getStorageSync('cartDish' + id) && wx.getStorageSync('cartDish' + id).length != 0) {
       this.setData({hideModal: false})
       this.setCart()
     } else {
@@ -269,11 +271,12 @@ Page({
   addDish: function(event) {  
 
     console.log(event)
-    var newMenu = this.data.menu
+    // var newMenu = this.data.menu
     // 选中的商品信息
     let productInfo = event.currentTarget.dataset.dishs
+    let id = wx.getStorageSync('tableInfo').tableId
     // 先获取缓存中的商品信息
-    let cart = wx.getStorageSync('cartDish') || []
+    let cart = wx.getStorageSync('cartDish' + id) || []
     // 判断当前商品是否第一次添加
     // debugger;
     let index = cart.findIndex(v => v.food_id === productInfo.food_id)
@@ -286,10 +289,10 @@ Page({
       cart[index].num = cart[index].num + 1
     }
     // 把更改后的购物车数据重新存入缓存
-    wx.setStorageSync('cartDish', cart)
+    wx.setStorageSync('cartDish'+ id, cart)
     
     this.setData({cartList: cart})
-    console.log("get cartlist", this.data.cateList)
+    // console.log("get cartlist", this.data.cateList)
     wx.showToast({
       title: '商品已放入购物车',
       icon: 'none'
@@ -305,7 +308,8 @@ Page({
   removeDish: function(event) {
     let that = this
     let productInfo = event.currentTarget.dataset.dishs
-    let cart = wx.getStorageSync('cartDish') || []
+    let id = wx.getStorageSync('tableInfo').tableId
+    let cart = wx.getStorageSync('cartDish'+ id) || []
     // 找到缓存中对应的商品
     let index = cart.findIndex(v => v.food_id === productInfo.food_id)
     // 商品数量大于1则直接减去数量，然后设置购物车状态
@@ -333,7 +337,8 @@ Page({
   },
   // 设置购物车状态
   setCart(cart) {
-    cart = cart ? cart : wx.getStorageSync('cartDish') || []
+    let id = wx.getStorageSync('tableInfo').tableId
+    cart = cart ? cart : wx.getStorageSync('cartDish'+ id) || []
    
     if(cart.length === 0) {
       this.setData({hideModal: false})
@@ -351,7 +356,7 @@ Page({
     })
     // 购物车中不存在商品，则全选按钮取消勾选
     allChecked = cart.length != 0 ? allChecked : false
-    wx.setStorageSync('cartDish', cart)
+    wx.setStorageSync('cartDish' + id, cart)
     this.setData({
       allChecked,
       totalNum,
@@ -419,7 +424,8 @@ Page({
   },
   // 购物车回填商品列表数据
   handleList() {
-    let cart = wx.getStorageSync('cartDish') || []
+    let id = wx.getStorageSync('tableInfo').tableId
+    let cart = wx.getStorageSync('cartDish' + id) || []
     let productList = this.data.productList.map(item => {
       delete item.num
       return item
