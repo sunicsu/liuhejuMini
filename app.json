@@ -4,14 +4,23 @@
     "pages/logs/logs",
     "pages/menu/menu",
     "pages/submit/submit",
-    "pages/comment/comment",
-    "pages/payment/payment",
-    "pages/mycomment/mycomment"
-  ],
+    "pages/payment/payment"
+    ],
+    "subpackages": [
+      {
+        "root": "pagesA",
+        "pages": [
+          "comment/comment",
+          "mycomment/mycomment",
+          "business/business"
+        ]
+      }
+        ],
+  
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#abd",
-    "navigationBarTitleText": "Eat点点",
+    "navigationBarBackgroundColor": "#ff9537",
+    "navigationBarTitleText": "六和点菜",
     "navigationBarTextStyle": "black"
   }
 }

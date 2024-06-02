@@ -135,7 +135,7 @@
   line-height:95rpx;
 }
 
-.cart-detail, .cart-detail .mask {
+.cart-detail .mask {
   position: absolute;
   left: 0;
   top: 0;
@@ -150,7 +150,7 @@
 .cart-detail .cart-list {
   position: absolute;
   left: 0;
-  bottom: 100rpx;
+  bottom: 50rpx;
   width: 100%;
   background: #f7f7f7;
   padding: 0rpx 0;
@@ -162,8 +162,9 @@
   /* width: 100%; */
   color: #333;
   font-size: 28rpx;
-  line-height: 1.5;
-  padding: 2rpx 40rpx;
+  line-height: 0px;
+  margin-bottom: 1px;
+  padding: 0rpx 100rpx;
 }
 
  .cart-detail .cart-list .item .name {
@@ -223,6 +224,7 @@
 .cart-detail .cart-list .item .num {
   width: 30rpx;
   text-align: center;
+  line-height: 0px;
   margin: 0 5rpx;
 }
 
@@ -344,3 +346,15 @@
   /* height: 50rpx;  */
 }
 
+.lay-close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.order_items{  
+  text-align: center; 
+  font-size: 14px;  
+}  

@@ -1,0 +1,22 @@
+/* pages/business.wxss */
+.welcome {
+  color: #abe;
+  font-size: 50rpx;
+  text-align: center;
+}
+.weui-cells__title1 {
+  margin-top: .77em;
+  margin-bottom: .3em;
+  padding-left: 30px;
+  padding-right: 30px;
+  color: #999;
+  font-size: 16px
+}
+.weui-cells__title0 {
+  margin-top: .77em;
+  margin-bottom: .3em;
+  padding-left: 30px;
+  padding-right: 30px;
+  color: rgb(136, 136, 136);
+  font-size: 14px
+}

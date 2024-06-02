@@ -120,7 +120,7 @@ Page({
     wx.uploadFile({
       filePath: alreadyChoosedImageList,   //要上传文件资源的路径 (本地路径)
       name: 'file',
-      url: 'http://127.0.0.1:8000/api/TakeImage',        // 自己的API接口
+      url: getApp().globalData.baseUrl + '/TakeImage',        // 自己的API接口
       // header: {
       //   "content-type": "multipart/form-data",
       // },

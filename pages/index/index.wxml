@@ -1,6 +1,6 @@
 <!--index.wxml-->
 <view class="container">
-  <text class="welcome">六和居欢迎您</text>
+  <text class="welcome">六和居川味火锅店欢迎您</text>
   <image src="../../images/logo.png" style="width: 200rpx; height: 150rpx;"></image>
   <button class="scanBtn" type='primary' bindtap="to_menu">扫码点餐</button>
   <!-- <button class="comfirm-button" type='default' bindtap="to_menu_trick">4餐厅1桌</button> -->
@@ -10,7 +10,7 @@
     <block wx:for="{{grids}}" wx:key="*this">
       <navigator url="" class="weui-grid" hover-class="weui-grid_active" data-index='{{index}}' bindtap='onNavigatorTap'>
         <!-- <image class="weui-grid__icon" src="../../images/logo.png" /> -->
-        <button disabled='{{!item.status}}' class="submitBtn {{item.status ? 'active' : 'gray'}}" bindtap="to_menu_trick" data-id="{{item.table_id}}" data-status="{{item.status}}">{{book}}</button>
+        <button disabled='{{!item.status}}' class="submitBtn {{item.status ? 'active' : 'gray'}}" bindtap="to_menu_trick" data-id="{{item.table_id}}" data-status="{{item.status}}" data-tablename="{{item.table_name}}">{{book}}</button>
         <view class="weui-grid__label1">{{item.table_name}}</view>
         <view class="weui-grid__label2">{{item.station}}</view>
       </navigator>

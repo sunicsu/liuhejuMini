@@ -5,8 +5,8 @@
   ],
   "window":{
     "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#fbc",
-    "navigationBarTitleText": "Eat点点",
+    "navigationBarBackgroundColor": "#ff9537",
+    "navigationBarTitleText": "六和点菜",
     "navigationBarTextStyle":"black"
   }
 }

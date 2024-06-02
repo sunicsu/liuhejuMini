@@ -32,6 +32,7 @@ Page({
     // navRightItems: [],  
     num: 0,
     scrollTop: 0,
+     //购物车弹窗显示隐藏
     hideModal: true,
     cartList: [],
     allChecked: true
@@ -127,7 +128,7 @@ Page({
     // get goods
     wx.request({
       // url: 'http://127.0.0.1:8000/api/menu/' + this.data.tableInfo.restaurantId.toString(),
-      url: 'http://127.0.0.1:8000/api/category_dish',
+      url: getApp().globalData.baseUrl + '/category_dish',
       method: 'GET',
       header: {
         'content-type': 'application/json'
@@ -206,7 +207,22 @@ Page({
   //保留当前页面，跳转到应用内的某个页面，使用wx.navigateBack可以返回到原页面。
   to_comment:function() {
     wx.navigateTo({
-      url: '../comment/comment',
+      url: '/pagesA/comment/comment',
+      success: function (res) {
+        // success
+      },
+      fail: function () {
+        // fail
+      },
+      complete: function () {
+        // complete
+      }
+    })
+  },
+
+  to_business:function() {
+    wx.navigateTo({
+      url: '/pagesA/business/business',
       success: function (res) {
         // success
       },
@@ -250,9 +266,16 @@ Page({
     }
     
   },
-  // 点击购物车
+  // 点击关闭购物车窗口
+  showCart() {
+    this.setData({
+      hideModal: !this.data.hideModal, //显示隐藏购物车弹窗
+      // mask: !this.data.mask, //显示隐藏遮罩层
+    });
+  },
+ // 点击购物车
   handleCart(event) {
-    let id = wx.getStorageSync('tableInfo').tableId
+    let id = wx.getStorageSync('tableInfo').table_id
     this.setData({
       cartList: wx.getStorageSync('cartDish' + id),
     })
@@ -274,7 +297,7 @@ Page({
     // var newMenu = this.data.menu
     // 选中的商品信息
     let productInfo = event.currentTarget.dataset.dishs
-    let id = wx.getStorageSync('tableInfo').tableId
+    let id = wx.getStorageSync('tableInfo').table_id
     // 先获取缓存中的商品信息
     let cart = wx.getStorageSync('cartDish' + id) || []
     // 判断当前商品是否第一次添加
@@ -308,7 +331,7 @@ Page({
   removeDish: function(event) {
     let that = this
     let productInfo = event.currentTarget.dataset.dishs
-    let id = wx.getStorageSync('tableInfo').tableId
+    let id = wx.getStorageSync('tableInfo').table_id
     let cart = wx.getStorageSync('cartDish'+ id) || []
     // 找到缓存中对应的商品
     let index = cart.findIndex(v => v.food_id === productInfo.food_id)
@@ -337,7 +360,7 @@ Page({
   },
   // 设置购物车状态
   setCart(cart) {
-    let id = wx.getStorageSync('tableInfo').tableId
+    let id = wx.getStorageSync('tableInfo').table_id
     cart = cart ? cart : wx.getStorageSync('cartDish'+ id) || []
    
     if(cart.length === 0) {
@@ -424,7 +447,7 @@ Page({
   },
   // 购物车回填商品列表数据
   handleList() {
-    let id = wx.getStorageSync('tableInfo').tableId
+    let id = wx.getStorageSync('tableInfo').table_id
     let cart = wx.getStorageSync('cartDish' + id) || []
     let productList = this.data.productList.map(item => {
       delete item.num

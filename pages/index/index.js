@@ -53,7 +53,7 @@ Page({
   onReady() {
     var that = this
     wx.request({
-      url: 'http://127.0.0.1:8000/api/TableViewset',
+      url: getApp().globalData.baseUrl + '/TableViewset',
       method: 'GET',
       // header: header,
       header: {
@@ -102,9 +102,11 @@ Page({
   to_menu_trick(event) {
     let id = event.currentTarget.dataset.id
     let status = event.currentTarget.dataset.status
+    let table_name = event.currentTarget.dataset.tablename
     wx.setStorageSync('tableInfo', {
       "restaurantId": 4,
-      "tableId": id,
+      "table_id": id,
+      "table_name": table_name,
       "status": status
     });
     // debugger;
