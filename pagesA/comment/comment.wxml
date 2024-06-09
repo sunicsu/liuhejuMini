@@ -49,8 +49,8 @@
 
 <view class="page">
   <view class="page__hd header">
-    <view class="page__title">吃过，所以留下足迹</view>
-    <view class="page__desc">人世间，酸甜苦辣，若长良川。</view>
+    <view class="page__title">吃过，所以留下足迹是吃货应该做的！</view>
+    <view class="page__desc">人世间，酸甜苦辣也是个经历。</view>
   </view>
   <view class="page__bd">
     <view class="weui-panel weui-panel_access">

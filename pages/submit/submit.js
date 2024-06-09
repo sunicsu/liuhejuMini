@@ -13,6 +13,7 @@ Page({
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'), 
     order:[],
+    notes: '',
     totalPrice: '',
     customer_id: ''
   },
@@ -22,7 +23,7 @@ Page({
    */
   
   onLoad: function (options) {
-    let id = wx.getStorageSync('tableInfo').tableId
+    let id = wx.getStorageSync('tableInfo').table_id
     let menu = wx.getStorageSync('cartDish' + id)
     // debugger;
     this.setData({
@@ -90,7 +91,18 @@ Page({
     console.log('get grids', app.globalData.grids)
   },
 
-  
+
+  // 备注内容
+  inputNotes: function(e) {
+    this.setData({ 
+      notes: e.detail.value,
+    })
+    
+    // let newNote = {note: this.data.notes}
+    // this.data.order.push(newNote)
+
+  },
+ 
   submitOrder: function () {
     var that = this
     var value = cookieUtil.getCookieFromStorage('cookie')
@@ -109,11 +121,14 @@ Page({
     })
     console.log('load tableInfo', this.data.tableInfo)
     let postBody = {}
+    let newNote = {notes: this.data.notes}
+    // 增加备注
     postBody = {foods: that.data.order}
+    postBody.notes = newNote
     console.log('postBody', postBody);
 
     wx.request({
-      url: app.globalData.baseUrl + '/restaurant/orders/'+this.data.tableInfo.restaurantId.toString()+'/'+this.data.tableInfo.tableId.toString(),
+      url: app.globalData.baseUrl + '/restaurant/orders/'+this.data.tableInfo.restaurantId.toString()+'/'+this.data.tableInfo.table_id.toString(),
       method: 'POST',
       data: postBody,
       header: header,

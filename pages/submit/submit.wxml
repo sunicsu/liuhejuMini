@@ -30,7 +30,7 @@
         <view class="weui-cells weui-cells_after-title">
             <view class="weui-cell">
                 <view class="weui-cell__bd">
-                    <textarea class="weui-textarea" placeholder="请输入对菜品的要求" style="height: 3.3em" />
+                    <textarea class="weui-textarea" placeholder="请输入对菜品的要求"  bindinput="inputNotes" style="height: 3.3em" />
                 </view>
             </view>
         </view>

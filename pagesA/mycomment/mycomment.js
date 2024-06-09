@@ -16,12 +16,12 @@ Page({
     imgList: "",
   },
 
-     // 文件标题
+     // 标题
   companyTitle: function(e) {
       // console.log(e)
       this.setData({ title: e.detail.value })   // 获取从键盘输入的值
     },
-    // 资格证号
+    // 评论内容
   companyNumber: function(e) {
       this.setData({ number: e.detail.value })
     },
