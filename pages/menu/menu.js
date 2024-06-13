@@ -11,6 +11,7 @@ const getRoundeNumber = num => {
   return Number(num).toFixed(2)
 }
 
+
 Page({
   data: {
     /*motto: 'ChickenDinner8！',
@@ -64,39 +65,39 @@ Page({
     })
   },
    // 菜品分组
-   groupByKeyword: function(info) { 
-    // var that = this
-    let groupedData = {};
-    if (Array.isArray(info)){
-      info.forEach(item => {
-      if (!groupedData[item.categoryname]) {
-        groupedData[item.categoryname] = [];
-      }
-      groupedData[item.categoryname].push(item);
-    });
-    }      
-    return groupedData;
-   
-    },
+  groupByKeyword: function(info) { 
+  // var that = this
+  let groupedData = {};
+  if (Array.isArray(info)){
+    info.forEach(item => {
+    if (!groupedData[item.categoryname]) {
+      groupedData[item.categoryname] = [];
+    }
+    groupedData[item.categoryname].push(item);
+  });
+  }      
+  return groupedData;
+  
+  },
     //返回数据生成新数组
-    createNewArray: function(menuall){
-        var array = new Array()
-         for (var i =0; i<that.data.menuall.length; i++){
-          that.data.newmenu = that.data.menuall[i].children
-          for (var j = 0; j < that.data.newmenu.length; j++){
-            var keys = Object.keys(that.data.newmenu)[j]
-            var values = that.data.newmenu[keys]
-            // var array = new Array()
-            var info = {}
-            info['id'] = keys
-            info['value'] = values
-            array.push(info)
-            // that.data.menu.push(that.data.menuall[i].children)
-          }
+  createNewArray: function(menuall){
+      var array = new Array()
+        for (var i =0; i<that.data.menuall.length; i++){
+        that.data.newmenu = that.data.menuall[i].children
+        for (var j = 0; j < that.data.newmenu.length; j++){
+          var keys = Object.keys(that.data.newmenu)[j]
+          var values = that.data.newmenu[keys]
+          // var array = new Array()
+          var info = {}
+          info['id'] = keys
+          info['value'] = values
+          array.push(info)
+          // that.data.menu.push(that.data.menuall[i].children)
         }
-        that.data.menu = array
-        console.log("array", array)
-    },
+      }
+      that.data.menu = array
+      console.log("array", array)
+  },
 
   onLoad: function () {
     let tableInfo = wx.getStorageSync('tableInfo')
@@ -150,9 +151,9 @@ Page({
 
         // that.data.rightContent = that.data.menu[0].children
         // console.log("rightContent", that.data.rightContent)
-        console.log("get menu", that.data.menu)
-        console.log("get leftMenuList", that.data.leftMenuList)
-        console.log("get rightContent", that.data.rightContent)
+        // console.log("get menu", that.data.menu)
+        // console.log("get leftMenuList", that.data.leftMenuList)
+        // console.log("get rightContent", that.data.rightContent)
 
         var k = 0
         for (var i = 0; i < that.data.menu.length; i++){
@@ -174,7 +175,9 @@ Page({
     })
   },
   
-  
+  onShow: function () {
+    
+  },
    //事件处理函数  
   switchRightTab: function(e) {  
     const Cates = wx.getStorageSync('cates');

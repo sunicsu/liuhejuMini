@@ -135,14 +135,14 @@ Page({
       success: res => {
         console.log('上传成功:', res)
         wx.showToast({
-          title: '图片上传成功',
+          title: '评论上传成功',
           icon: 'success'
         });
       },
       fail: function (err) {
         console.error(err);
         wx.showToast({
-          title: '图片上传失败',
+          title: '评论上传失败',
           icon: 'none'
         });
       }

@@ -95,9 +95,9 @@ App({
   globalData: {
     userInfo: null,
     appId: "wx6b2174da78c30a9f",
-    // baseUrl: "http://127.0.0.1:8000/api",
-    // url: 'http://127.0.0.1:8000',
-    baseUrl: "https://wx.91htwh.top/api",
-    url: 'https://wx.91htwh.top',
+    baseUrl: "http://127.0.0.1:8000/api",
+    url: 'http://127.0.0.1:8000',
+    // baseUrl: "https://wx.91htwh.top/api",
+    // url: 'https://wx.91htwh.top',
   }
 })

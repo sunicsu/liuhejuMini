@@ -67,6 +67,9 @@ Page({
       },
     })
   },
+  onShow: function () {
+    this.onReady()//再次加载，实现返回上一页页面刷新
+  },
   getUserInfo: function(e) {
     console.log(e)
     app.globalData.userInfo = e.detail.userInfo

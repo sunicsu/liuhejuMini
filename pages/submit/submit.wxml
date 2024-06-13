@@ -26,7 +26,7 @@
                 </view>                     
               </scroll-view>
         </view>
-        <view class="weui-cells__title">备注</view>
+        <view class="weui-cells__title">特别提示:请您仔细确认所点菜品，订单提交后只能在饭店没有加工的情况下修改！</view>
         <view class="weui-cells weui-cells_after-title">
             <view class="weui-cell">
                 <view class="weui-cell__bd">
