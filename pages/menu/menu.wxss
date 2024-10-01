@@ -26,6 +26,7 @@
   height: 92rpx;
 }*/
 .weui-navbar {
+  position: fixed;
   background-color: white;
   height: 70rpx;
   align-items: center;
@@ -118,25 +119,33 @@
 .cart-price {
   margin-top: 20rpx;
 }
+.comfirm-button1 {
+  width: 160rpx;
+  font-size:35rpx;
+  line-height:70rpx;
+  margin-top: auto;
+  margin-bottom: 200rpx;
+}
 .comfirm-button {
-  width: 300rpx;
+  width: 160rpx;
   background-color: #fbc;
   color: white;
   margin: 0;
   position: absolute;
-  right: 2rpx;
-  width:30%;
+  top: 20rpx;
+  right: 10rpx;
+  /* width:30%; */
   float:right;
   /*height:86rpx;
   background:#abd;
   color:white;*/
   font-size:35rpx;
-  margin-right: 0;
-  line-height:95rpx;
+  line-height:70rpx;
+  
 }
 
 .cart-detail .mask {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
  
@@ -145,17 +154,20 @@
 }
 
 .cart-detail .mask {
+  display: flex;
   background: rgba(211, 210, 210, 0.7);
 }
 
 .cart-detail .cart-list {
-  position: absolute;
+  display: flex;
+  position: fixed;
   left: 0;
   bottom: 0rpx;
   width: 100%;
-  
+  height: 100%;
   background: #f7f7f7;
   padding: 0rpx 0rpx;
+  margin-bottom: 40px;
 }
 
 .cart-detail .cart-list .item {
@@ -226,12 +238,12 @@
   border-radius: 0rpx;
 }
 .menu-container { 
-  /* margin-top: 12%; */
+  margin-bottom: 70rpx;
   position:absolute;
   left:0rpx;
   top:70rpx;
   width: 100%; /* 宽度占屏幕的100% */
-  height: 90%; /* 高度占屏幕的100% */
+  height: 75%; /* 高度占屏幕的100% */
   background-color: #fff; /* 背景颜色 */
   }
 .nav_left { 
@@ -239,7 +251,7 @@
   top: 0px;
   left: 0px;
   width: 24%;
-  height: 100%x;
+  height: 120%;
   background: #fff;
   text-align: center;
   }

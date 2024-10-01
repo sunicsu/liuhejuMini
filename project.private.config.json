@@ -3,7 +3,7 @@
   "projectname": "%E5%85%AD%E5%90%88%E5%B1%852",
   "setting": {
     "compileHotReLoad": true,
-    "urlCheck": false,
+    "urlCheck": true,
     "bigPackageSizeSupport": true
   }
 }

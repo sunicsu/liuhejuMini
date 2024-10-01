@@ -83,7 +83,16 @@ Page({
       scanType: 'qrCode',
       success: (res) => {
         console.log(res.result);
-        wx.setStorageSync('tableInfo', JSON.parse(res.result));
+        let decodedData = JSON.parse(res.result.slice(1)); // 解析JSON字符串为对象
+        console.log(decodedData);
+        let id = decodedData.table_id;
+        let table_name = decodedData.table_name;
+        wx.setStorageSync('tableInfo', {
+          "restaurantId": 4,
+          "table_id": id,
+          "table_name": table_name
+          });
+        //  debugger; 
         wx.navigateTo({
           url: '../menu/menu',
           success: function (res) {

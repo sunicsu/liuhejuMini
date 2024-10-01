@@ -23,25 +23,28 @@
               <scroll-view class="weui-cells" scroll-y="true">
                 <view wx:for="{{order}}" wx:key="order_block">
                   <template is="orderItem" data="{{...item}}"/>
-                </view>                     
+                </view> 
+                <view class="total">总计： ￥<text class="price_num">{{totalPrice}}</text>元</view>
+                <view class="weui-cells__title">特别提示:请您仔细确认所点菜品，订单提交后只能在饭店没有加工的情况下修改！</view>
+                <view class="weui-cells weui-cells_after-title">
+                  <view class="weui-cell">
+                      <view class="weui-cell__bd">
+                          <textarea class="weui-textarea" placeholder="请输入联系电话" placeholder-style="font-size:36rpx" bindinput="inputMobile" style="height: 1.1em" />
+                      </view>                
+                  </view>                
+                  <view class="weui-cell">
+                      <view class="weui-cell__bd">
+                          <textarea class="weui-textarea" placeholder="请输入对菜品的要求" placeholder-style="font-size:36rpx" bindinput="inputNotes" style="height: 3.3em" />
+                      </view>                
+                  </view> 
+                  <view class="weui-cell">            
+                  </view> 
+                  <button class='comfirm-button' type="primary" bindtap="submitOrder">提交订单</button>
+                </view> 
+                
               </scroll-view>
-        </view>
-        <view class="weui-cells__title">特别提示:请您仔细确认所点菜品，订单提交后只能在饭店没有加工的情况下修改！</view>
-        <view class="weui-cells weui-cells_after-title">
-            <view class="weui-cell">
-                <view class="weui-cell__bd">
-                    <textarea class="weui-textarea" placeholder="请输入对菜品的要求"  bindinput="inputNotes" style="height: 3.3em" />
-                </view>
-            </view>
-        </view>
-        <view class="bottom">
-          <view class="price">
-            <view>总计： ￥<text class="price_num">{{totalPrice}}</text></view>
-          </view>
-          <view class="pay">
-	          <button type="default" bindtap="submitOrder">提交订单</button>
-          </view>
-        </view>
-        
+        </view>          
     </view>
+
+
 </view>

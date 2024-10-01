@@ -1,8 +1,10 @@
 .weui-panel__hd {
   text-align:center;
+
 }
 .weui-cells {
   display: inline;
+
 }
 
 .order_detail {
@@ -123,20 +125,36 @@
 
 .price {
   width: 60%;
-  float: left;
-  margin-left: 20rpx;
+  /* float: left; */
+  left: 40rpx;
+  margin-left: 40rpx;
   margin-top: 15rpx;
+}
+.total {
+  width: 60%;
+  /* float: left; */
+  left: 50rpx;
+  margin-left: 40rpx;
+  margin-top: 30rpx;
 }
 
 .pay button {
   width: 30%;
+  top:2px;
+  right:2px;
   float: right;
-  height: 86rpx;
+  height: 75rpx;
   background:#0b0;
   color: white;
   font-size: 35rpx;
 }
 
+.comfirm-button {
+  padding: 5rpx 5rpx;
+  width: 200rpx;
+  font-size:35rpx;
+  line-height:70rpx;
+}
 
 
 

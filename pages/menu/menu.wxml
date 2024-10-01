@@ -62,9 +62,8 @@
           <view style="height:20px"></view> 
           <!-- </view> -->
         </scroll-view>
-
-        
-        <view class="cart-detail" hidden="{{hideModal}}">
+      </view>
+      <view class="cart-detail" hidden="{{hideModal}}">
           <view class="mask" bindtap="hideCartDetail"></view>	
             <scroll-view scroll-y='true' class="cart-list" style="height: 75vh;">
               <!-- <scroll-view scroll-y='true'> -->
@@ -77,21 +76,26 @@
                       <view class="num">{{itemName.num}}</view>
                       <view class="add-btn" data-dishs="{{itemName}}" bindtap="tapAddCart">+</view>
                 </view>
+                <button class="comfirm-button1" type="default" bindtap="to_submit">下单</button>
+                <view>
+                </view>
+                <view>
+                </view>
+
             </scroll-view>
+ 
           <!-- </view> -->
         </view>
 
         <view class="bar">
           <view class="cart" bindtap="handleCart">
-                  <image src="../../images/cart.png" style="width: 100rpx; height: 100rpx;">
-                    <span class="cart-num" wx:if="{{totalNum!=0}}">{{totalNum}}</span>
-                  </image>
-                  <view class='cart-price'>共计 ￥{{totalPrice}}</view>
-                <button class="comfirm-button" type='primary' bindtap="to_submit">提交订单</button>
-            </view>
+            <image src="../../images/cart.png" style="width: 100rpx; height: 100rpx;">
+              <span class="cart-num" wx:if="{{totalNum!=0}}">{{totalNum}}</span>
+            </image>
+            <view class='cart-price'>共计 ￥{{totalPrice}}</view>
+            <!-- <button class="comfirm-button" type='primary' bindtap="to_submit">确定</button> -->
+          </view>
         </view>
-      </view>
   </view>
- 
 </view>
 

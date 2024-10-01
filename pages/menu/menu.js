@@ -53,6 +53,7 @@ Page({
   onReady: function () {
     // 生命周期函数--监听页面初次渲染完成
     // var listChild1 = list.List[0];
+    
     var that = this;
     // 获取可视区高度
     wx.getSystemInfo({
@@ -110,6 +111,7 @@ Page({
       icon: 'loading',
       duration: 3000000
     })
+    this.initCart()
     // request get Goodscetogory
     var that = this
     // wx.request({
@@ -258,7 +260,7 @@ Page({
       })
     } else {
       wx.showModal({
-        content: '小主还没点餐呢',
+        content: '您还没点菜呢',
         showCancel: false,
         success: function (res) {
           if (res.confirm) {
@@ -288,7 +290,7 @@ Page({
       this.setCart()
     } else {
       wx.showToast({
-        title: '请添加商品',
+        title: '请添加菜品',
         icon: 'none'
       })
     }
@@ -320,7 +322,7 @@ Page({
     this.setData({cartList: cart})
     // console.log("get cartlist", this.data.cateList)
     wx.showToast({
-      title: '商品已放入购物车',
+      title: '菜品已放入购物车',
       icon: 'none'
     })
     // 加入购物车给购物车加一个抖动的动画
@@ -361,6 +363,33 @@ Page({
       })
     }
   },
+  //初始化购物车
+  initCart(cart) {
+    let id = wx.getStorageSync('tableInfo').table_id
+    cart = cart ? cart : wx.getStorageSync('cartDish'+ id) || []
+    let allChecked = true, totalNum = 0, totalPrice = 0
+    cart.forEach(v => {
+      if(v.checked) {
+      	// 计算已经勾选商品的总价及总数
+        totalPrice += getRoundeNumber(v.price * v.num) * 1
+        totalNum += v.num
+      } else {
+      	// 购物车中存在商品且没有商品被勾选，则全选按钮取消勾选
+        allChecked = false
+      }
+    })
+    // 购物车中不存在商品，则全选按钮取消勾选
+    allChecked = cart.length != 0 ? allChecked : false
+    wx.setStorageSync('cartDish' + id, cart)
+    this.setData({
+      allChecked,
+      totalNum,
+      totalPrice,
+      cartList: cart
+    })
+    this.handleList()
+  },
+
   // 设置购物车状态
   setCart(cart) {
     let id = wx.getStorageSync('tableInfo').table_id

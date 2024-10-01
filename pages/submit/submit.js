@@ -14,6 +14,7 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'), 
     order:[],
     notes: '',
+    mobile: '',
     totalPrice: '',
     customer_id: ''
   },
@@ -97,7 +98,12 @@ Page({
     this.setData({ 
       notes: e.detail.value,
     })
-    
+  }, 
+  // 联系方式
+  inputMobile: function(e) {
+    this.setData({ 
+      mobile: e.detail.value,
+    }) 
     // let newNote = {note: this.data.notes}
     // this.data.order.push(newNote)
 
@@ -122,9 +128,11 @@ Page({
     console.log('load tableInfo', this.data.tableInfo)
     let postBody = {}
     let newNote = {notes: this.data.notes}
-    // 增加备注
+    let getmobile = {mobile: this.data.mobile}
+    // 增加备注,moblie
     postBody = {foods: that.data.order}
     postBody.notes = newNote
+    postBody.mobile = getmobile
     console.log('postBody', postBody);
 
     wx.request({

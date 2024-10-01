@@ -130,7 +130,8 @@ Page({
         // number: "18"
         title: JSON.stringify(title),
         text: JSON.stringify(number),
-        username: '匿名用户'
+        // username: '匿名用户'
+        username: wx.getStorageSync('userInfo').nickName
       },
       success: res => {
         console.log('上传成功:', res)
