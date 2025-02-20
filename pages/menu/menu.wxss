@@ -1,20 +1,3 @@
-/**index.wxss**/
-/*.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}*/
-
-/*.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-}*/
-
-/*.userinfo-nickname {
-  color: #aaa;
-}*/
 
 .usermotto {
   /*color: #aaa;*/
@@ -117,7 +100,8 @@
 }
 
 .cart-price {
-  margin-top: 20rpx;
+  margin-top: 25rpx;
+  font-size:32rpx;
 }
 .comfirm-button1 {
   width: 160rpx;
@@ -125,23 +109,6 @@
   line-height:70rpx;
   margin-top: auto;
   margin-bottom: 200rpx;
-}
-.comfirm-button {
-  width: 160rpx;
-  background-color: #fbc;
-  color: white;
-  margin: 0;
-  position: absolute;
-  top: 20rpx;
-  right: 10rpx;
-  /* width:30%; */
-  float:right;
-  /*height:86rpx;
-  background:#abd;
-  color:white;*/
-  font-size:35rpx;
-  line-height:70rpx;
-  
 }
 
 .cart-detail .mask {
@@ -190,12 +157,11 @@
   width: 150rpx;
 } 
 
+
 .selectAll {
   display: flex;
   align-items: center;
 } 
-
-
 
 .minus-btn, .add-btn {
   /*position: absolute;*/
@@ -216,7 +182,7 @@
 }
 
 .cart-detail .cart-list .item .num {
-  width: 30rpx;
+  width: 45rpx;
   text-align: center;
   line-height: 0px;
   margin: 0 5rpx;
@@ -231,8 +197,9 @@
   height: 70rpx;
   display: flex;
   align-items:center;
-
 }
+
+
 
 .menu-img {
   border-radius: 0rpx;
@@ -355,4 +322,3 @@
   font-size: 16px;  
   padding: 25rpx;
 }  
-

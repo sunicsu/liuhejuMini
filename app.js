@@ -39,7 +39,7 @@ App({
               })
               var cookie = cookieUtil.getSessionIDFromResponse(res)
               cookieUtil.setCookieToStorage(cookie)
-              console.log(cookie)
+              console.log("cookie:", cookie)
             }
           })
           resolve();
@@ -60,9 +60,11 @@ App({
                 // 可以将 res 发送给后台解码出 unionId
                 getApp().globalData.userInfo = res.userInfo
                 wx.setStorageSync('userInfo', res.userInfo)
-                console.log(res);
+                console.log("got res:", res);
+                console.log("globalData userInfo", getApp().globalData.userInfo)
                 postBody.nickname = res.userInfo.nickName;
                 postBody.avatar = res.userInfo.avatarUrl;
+                postBody.open_id = res.userInfo.open_id;
                 // postBody.appId = res.userInfo.appId;
                 // resolve();
 
@@ -81,7 +83,7 @@ App({
   Promise
     .all([login(), getSetting()])
     .then(function() {
-      console.log(postBody);
+      console.log("postbody:", postBody);
       wx.request({
         url: getApp().globalData.baseUrl + '/buyer/session',
         method: 'POST',
@@ -96,9 +98,9 @@ App({
   globalData: {
     userInfo: null,
     appId: "wx6b2174da78c30a9f",
-    // baseUrl: "http://127.0.0.1:8000/api",
-    // url: 'http://127.0.0.1:8000',
-    baseUrl: "https://wx.91htwh.top/api",
-    url: 'https://wx.91htwh.top',
+    baseUrl: "http://127.0.0.1:8000/api",
+    url: 'http://127.0.0.1:8000',
+    // baseUrl: "https://wx.91htwh.top/api",
+    // url: 'https://wx.91htwh.top',
   }
 })

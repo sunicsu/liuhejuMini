@@ -8,7 +8,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    motto: 'ChickenDinner8！',
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'), 
@@ -16,7 +15,11 @@ Page({
     notes: '',
     mobile: '',
     totalPrice: '',
-    customer_id: ''
+    customer_id: '',
+    hidePhoneNum: false,
+    status: true,
+    maxWord: 50,
+    currentWord: 0
   },
 
   /**
@@ -25,13 +28,21 @@ Page({
   
   onLoad: function (options) {
     let id = wx.getStorageSync('tableInfo').table_id
+    let ordercategory = wx.getStorageSync('tableInfo').orderCategory
     let menu = wx.getStorageSync('cartDish' + id)
     // debugger;
     this.setData({
       //order: menu
       order: menu.filter( (res) => res.num > 0)
+
     })
     let totalPrice = wx.getStorageSync('totalPrice')
+    if (ordercategory == 1) {
+      this.setData({
+        hidePhoneNum: true,
+        status: false
+      })
+    }
     this.setData({
       totalPrice: totalPrice
     })
@@ -44,39 +55,7 @@ Page({
       totalNum: totalNum
     })
     console.log('load data', this.data)
-    //wx.clearStorageSync('data')
-    // const key = 'cookie'
-    // wx.login({
-    //   success: res => {
-    //     // 发送 res.code 到后台换取 openId, sessionKey, unionId
-    //     // postBody.code = res.code;
-    //     // postBody.appId = getApp().globalData.appId;
-    //     // console.log(res);
-    //     var code = res.code
-    //     var appId = getApp().globalData.appId
-    //     // var nickname = getApp().globalData.userInfo.nickName
-    //     wx.request({
-    //       url: getApp().globalData.baseUrl + '/buyer/session',
-    //       method: 'POST',
-    //       data: {
-    //         code: code,
-    //         appId: appId,
-    //         // nickname: nickname
-    //       },
-    //       header: {
-    //         'content-type': 'application/json'
-    //       },
-    //       success: function(res){
-    //         wx.showToast({
-    //           title: '授权成功'
-    //         })
-    //         var cookie = res.header['Set-Cookie']
-    //         wx.setStorageSync(key, cookie)
-    //         console.log(cookie)
-    //       }
-    //     })
-    //   }
-    //      })
+    
 
   },
 
@@ -95,17 +74,50 @@ Page({
 
   // 备注内容
   inputNotes: function(e) {
-    this.setData({ 
+    var that = this;
+    var value = e.detail.value;
+    var wordLength = parseInt(value.length); 
+    if (that.data.maxWord < wordLength) {
+      return ;
+    }
+    that.setData({
       notes: e.detail.value,
-    })
+      currentWord: wordLength 
+    });
   }, 
   // 联系方式
   inputMobile: function(e) {
-    this.setData({ 
-      mobile: e.detail.value,
+    const phoneNumber = e.detail.value;
+    if (e.detail.value.trim() == 0) {
+      wx.showToast({
+        title: '联系电话为空了',
+        icon: 'loading',
+        duration: 3000
+      })
+      setTimeout(function () {
+        wx.hideToast()
+      }, 2000)
+      this.setData({ 
+        mobile: phoneNumber,
+        status: true,
+      })
+    } else if (!/^1[3456789]\d{9}$/.test(phoneNumber)) {
+        // 手机号格式不正确，提示用户
+        wx.showToast({
+          title: '手机号不正确！',
+          icon: 'none',
+          duration: 3000
+        });
+        this.setData({ 
+          mobile: phoneNumber,
+          status: true,
+        })
+  } else {
+      this.setData({ 
+        mobile: e.detail.value,
+        status: false,
     }) 
-    // let newNote = {note: this.data.notes}
-    // this.data.order.push(newNote)
+    }
 
   },
  
@@ -129,10 +141,12 @@ Page({
     let postBody = {}
     let newNote = {notes: this.data.notes}
     let getmobile = {mobile: this.data.mobile}
+    let nickname = {nickname: getApp().globalData.userInfo.nickName}
     // 增加备注,moblie
     postBody = {foods: that.data.order}
     postBody.notes = newNote
     postBody.mobile = getmobile
+    postBody.nickname = nickname
     console.log('postBody', postBody);
 
     wx.request({
@@ -153,6 +167,18 @@ Page({
     })
   },
 
+  limitWord:function(e){
+    var that = this;
+    var value = e.detail.value;
+    //解析字符串长度转换成整数。
+    var wordLength = parseInt(value.length); 
+    if (that.data.maxWord < wordLength) {
+      return ;
+    }
+    that.setData({
+      currentWord: wordLength 
+    });
+  },
 
 
   /**

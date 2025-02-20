@@ -4,13 +4,13 @@
         <icon class="okicon" type="success" size="93"></icon>
         <view class="icon-box__ctn"></view>
         <view class="hint">订单已提交给商家。</view>
-        <view class="hint">您可以就餐后在酒店现场支付！</view>
+        <view class="hint">自研小程序仅帮您提前下单排队！</view>
+        <view class="hint">现不支持支付功能！</view>
+        <view class="hint">请您就餐后现场支付实际金额！</view>
     </view>
 
-    <view class="price content" >¥ {{totalPrice}}</view>
-    <button class="comfirm-button content" bindtap="payclick">
+    <!-- <view class="price content" >¥ {{totalPrice}}</view> -->
+    <!-- <button class="comfirm-button content" bindtap="payclick">
     	立即支付
-    </button>
-
-
+    </button> -->
 </view>

@@ -1,0 +1,22 @@
+/**index.wxss**/
+.container1 {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: space-between;
+  box-sizing: border-box;
+  font-size: 15px;
+} 
+.order {
+  text-align: left;
+  margin-left: 5px;
+}
+.item {
+  font-size: 14px;
+  margin-left: 20px;
+  color: #777;
+}
+.orderlog {
+  font-size: 18px;
+  text-align: center;
+}

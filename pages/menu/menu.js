@@ -32,9 +32,11 @@ Page({
     winHeight: 0,
     // navRightItems: [],  
     num: 0,
+    // peploenum: [1,2,3,4,5,6,7,8,9,10,11,12,13,14],
     scrollTop: 0,
      //购物车弹窗显示隐藏
     hideModal: true,
+    // hideNumModal:true,
     cartList: [],
     allChecked: true
 
@@ -106,28 +108,15 @@ Page({
       tableInfo: tableInfo
     })
     console.log('load tableInfo', this.data.tableInfo)
-    wx.showToast({
-      title: '正在全力加载中',
-      icon: 'loading',
-      duration: 3000000
-    })
+    // wx.showToast({
+    //   title: '正在全力加载中',
+    //   icon: 'loading',
+    //   duration: 3000000
+    // })
     this.initCart()
     // request get Goodscetogory
     var that = this
-    // wx.request({
-    //   url: 'http://127.0.0.1:8000/api/CategoryViewset',
-    //   method: 'GET',
-    //   header: {
-    //     'content-type': 'application/json'
-    //   },
-    //   success: function(res) {
-    //     wx.hideToast();
-    //     that.setData({
-    //        navLeftItems: res.data
-    //     })
-    //   },
-    // })
-    
+     
     // get goods
     wx.request({
       // url: 'http://127.0.0.1:8000/api/menu/' + this.data.tableInfo.restaurantId.toString(),
@@ -151,11 +140,6 @@ Page({
           rightContent
         }) 
 
-        // that.data.rightContent = that.data.menu[0].children
-        // console.log("rightContent", that.data.rightContent)
-        // console.log("get menu", that.data.menu)
-        // console.log("get leftMenuList", that.data.leftMenuList)
-        // console.log("get rightContent", that.data.rightContent)
 
         var k = 0
         for (var i = 0; i < that.data.menu.length; i++){
@@ -286,7 +270,9 @@ Page({
     })
     // debugger;
     if(wx.getStorageSync('cartDish' + id) && wx.getStorageSync('cartDish' + id).length != 0) {
+      // this.setData({hideNumModal: false})
       this.setData({hideModal: false})
+
       this.setCart()
     } else {
       wx.showToast({
@@ -387,6 +373,7 @@ Page({
       totalPrice,
       cartList: cart
     })
+    // debugger;
     this.handleList()
   },
 

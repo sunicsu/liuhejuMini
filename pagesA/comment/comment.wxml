@@ -1,68 +1,44 @@
 <!--comment.wxml-->
-<template name="commentItem">
-  <view class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
-    <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-        <image class="weui-media-box__thumb commentimg" src="{{img}}" />
-    </view>
-    <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-      <view class="weui-cell">
-        <view class="weui-cell__hd">
-          <image class='userimg' src="{{userImg}}" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;"></image>
-        </view>
-      <view class="weui-cell__bd username" >{{userName}}</view>
-      <view class="weui-cell__ft">
-        <view class="date">{{date}}</view>
-      </view>
-    </view>
-    <view class="weui-media-box__desc ">{{desc}}</view>
-      <view class="weui-cell__ft like">
-        <image class='commentstars' src="../../images/like.png" style="margin-right: 1px; vertical-align: middle;width:20px; height: 20px;" id="{{index}}" bindtap="addLike"></image> {{likeCount}}
-        <image class='commentstars' src="../../images/unlike.png" style="margin-right: 1px;vertical-align: middle;width:20px; height: 20px;" id="{{index}}" bindtap="addUnlike"></image> {{unlikeCount}}
-      </view>
-    </view>
-  </view>
-</template>
-
-
-<template name="commentsItem">
-  <view  class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
-    <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-        <image class="weui-media-box__thumb commentimg" src="{{image}}" />    
-    </view>
-    <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-      <view class="weui-cell">
-        <view class="weui-cell__bd username" >{{comments_name}}</view>
-        <view class="weui-cell__ft">
-          <view class="date">{{time}}</view>
-        </view>
-      </view>
-      <view class="weui-media-box__desc ">{{description}}</view>
-      <view class="weui-cell__ft like">
-        <view class="weui-cell__bd username" >{{comments_title}}</view>
-        <!-- <image class='commentstars' src="../../images/like.png" style="margin-right: 1px; vertical-align: middle;width:20px; height: 20px;" id="{{id}}" bindtap="addLike"></image> {{likeCount}}
-        <image class='commentstars' src="../../images/unlike.png" style="margin-right: 1px;vertical-align: middle;width:20px; height: 20px;" id="{{id}}" bindtap="addUnlike"></image> {{unlikeCount}} -->
-      </view>
-    </view>
-  </view>
-</template>
-
 
 <view class="page">
   <view class="page__hd header">
-    <view class="page__title">吃过，所以留下足迹是吃货应该做的！</view>
-    <view class="page__desc">人世间，酸甜苦辣也是个经历。</view>
+    <view class="page__title">品味六和居，留下真情意！</view>
+    <view class="page__desc">您的建议就是我们的成长的动力！</view>
   </view>
   <view class="page__bd">
     <view class="weui-panel weui-panel_access">
       <view class="weui-panel__hd">全部评论（{{comment_count}}）</view>
-      <view class="weui-panel__bd">
+      <!-- <view class="weui-panel__bd">
           <view wx:for="{{comment}}" wx:key="index">
             <template is="commentItem" data="{{...item}}"/>
           </view> 
-      </view>
-      <scroll-view class="weui-cells" scroll-y="true">
-          <view wx:for="{{comments}}" wx:key="id">
-            <template is="commentsItem" data="{{...item}}"/>
+      </view> -->
+      <scroll-view  scroll-y="true">
+          <view wx:for="{{comments}}"  wx:for-index="index" wx:for-item="itemName" wx:key="index">
+            <!-- <template is="commentsItem" data="{{...item}}"/> -->
+            <view  class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+              <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                  <image class="weui-media-box__thumb commentimg" src="{{itemName.image}}" />    
+              </view>
+              <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                <view class="weui-cell">
+                  <view class="weui-cell__bd username" >{{itemName.comments_name}}</view>
+                  <view class="weui-cell__ft">
+                    <view class="date">{{itemName.time}}</view>
+                  </view>
+                </view>
+                <view class="weui-media-box__desc" >{{itemName.comments_title}}
+                
+                </view>
+
+                <view class="weui-media-box__desc ">{{itemName.description}}</view>
+                <view class="weui-cell__ft like">
+                  <image  src="../../images/like.png" style="margin-right: 5x; vertical-align: middle;width:20px; height: 20px;" data-index="{{index}}" bindtap="addLike"></image> {{itemName.likecount}}
+                  <image  src="../../images/unlike.png" style="margin-right: 5px;vertical-align: middle;width:20px; height: 20px;" data-index="{{index}}" bindtap="addUnlike"></image> {{itemName.unlikecount}}
+                </view>
+
+              </view>
+            </view>
           </view>                         
       </scroll-view>
       <view class="weui-panel__ft">

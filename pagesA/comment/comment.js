@@ -6,34 +6,11 @@ Page({
    */
   data: {
     comment_count: '0',
-    comment: [{
-      img: '../../images/comment_img1.jpg',
-      userImg: '../../images/userimg1.png',
-      userName: '一叶知秋',
-      date: '2024-05-03',
-      desc: '好吃的菜，可爱的人，有趣的心灵，还会再来的。',
-      likeCount: 31,
-      unlikeCount: 5,
-      canlike: 'true',
-      index: 0
-    }, {
-      img: '../../images/comment_img3.jpg',
-      userImg: '../../images/userimg3.png',
-      userName: '就是不说名字的人',
-      date: '2024-05-05',
-      desc: '今天吃的很开心，喜欢这家餐厅，传统的味道、地道的羊肉、精致的菜品。',
-      likeCount: 101,
-      unlikeCount: 0,
-      canlike: 'true',
-      index: 1
-    }],
     comments:[],
   }, 
 
   onLoad: function () {
-    this.setData({
-      comment_count: this.data.comment.length.toString() 
-    });
+   
     var that = this
     wx.request({
       url: app.globalData.baseUrl + '/get_comments',
@@ -43,18 +20,18 @@ Page({
       },
       success: function(res) {
         wx.hideToast();
-        //console.log('get menu', res.data.foods)
+        console.log('get comments:', res.data.comments)
         that.setData({
           comments: res.data.comments,
+          comment_count: res.data.comments.length.toString() 
          })
-    //     //console.log('set menu', that.data.menu)
       },
 
     //   /*fail: function(res) {
     //     console.log('failed to load!')
     //   }*/
     })
-    console.log('comment_count', this.data.comment_count)
+
   },
 
   toCommit: function() {
@@ -77,19 +54,41 @@ Page({
     })
   },
 
-  addLike: function(event) {
-    var index = event.target.id
-    if (this.data.comment[index].canlike === 'true') {
-      console.log('comment data ', this.data)
+  addLike: function(event) { 
+    var that = this   
+    var index = event.currentTarget.dataset.index
+    // debugger
+    console.log("id:",index)
+    if (this.data.comments[index].canlike === true) {
+      console.log('comments data ', this.data.comments)
       var param = {}
-      var string = 'comment[' + index + '].canlike'
-      var string2 = 'comment[' + index + '].likeCount'
-      param[string] = 'false'
+      var string = 'comments[' + index + '].canlike'
+      var string2 = 'comments[' + index + '].likecount'
+      param[string] = false
       this.setData(param)
-      param[string2] = this.data.comment[index].likeCount + 1
+      param[string2] = this.data.comments[index].likecount + 1
       this.setData(param)
       console.log('param', param)
-      console.log('after setData', this.data.comment)
+      console.log('after setData', this.data.comments)
+      wx.request({
+        url: app.globalData.baseUrl + '/update_comments/' + this.data.comments[index].comments_id + '/' + 1 + "/" + 0,
+        method: 'GET',
+        header: {
+          'content-type': 'application/json'
+        },
+        // data: postBody,
+        success: function(res) {
+          wx.hideToast();
+          console.log('updated comments:', res.data.comments)
+          that.setData({
+            // comments: res.data.comments,
+           })
+        },
+  
+      //   /*fail: function(res) {
+      //     console.log('failed to load!')
+      //   }*/
+      })
     } else {
       wx.showModal({
         content: '你已经表态过了哦',
@@ -104,17 +103,37 @@ Page({
   },
 
   addUnlike: function(event) {
-    console.log('comment data ', this.data)
-    var index = event.target.id
+    console.log('comments data ', this.data.comments)
+    var that = this 
+    var index = event.currentTarget.dataset.index
     console.log('unlike touch index', index)
-    if (this.data.comment[index].canlike == 'true') {
+    if (this.data.comments[index].canlike == true) {
       var param = {}
-      var string = 'comment[' + index + '].canlike'
-      var string2 = 'comment[' + index + '].unlikeCount'
+      var string = 'comments[' + index + '].canlike'
+      var string2 = 'comments[' + index + '].unlikecount'
       param[string] = 'false'
       this.setData(param)
-      param[string2] = this.data.comment[index].unlikeCount + 1
+      param[string2] = this.data.comments[index].unlikecount + 1
       this.setData(param)
+      wx.request({
+        url: app.globalData.baseUrl + '/update_comments/' + this.data.comments[index].comments_id + '/' + 0 + "/" + 1,
+        method: 'GET',
+        header: {
+          'content-type': 'application/json'
+        },
+        // data: postBody,
+        success: function(res) {
+          wx.hideToast();
+          console.log('updated comments:', res.data.comments)
+          that.setData({
+            comments: res.data.comments,
+           })
+        },
+  
+      //   /*fail: function(res) {
+      //     console.log('failed to load!')
+      //   }*/
+      })
     } else {
       wx.showModal({
         content: '你已经表态过了哦',

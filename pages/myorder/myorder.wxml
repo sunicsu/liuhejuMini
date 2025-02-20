@@ -1,0 +1,13 @@
+<!--index.wxml-->
+<view class="container1">    
+    <scroll-view scroll-y='true' style="height: 100%;">
+      <view class="orderlog">订 单 记 录</view>
+      <view wx:for="{{list}}" wx:for-index="index" wx:for-item="itemName" wx:key="index"w>
+        <view class="order">id{{itemName.order_id}}-{{itemName.table_name}}-日期:{{itemName.order_time}}，总价:{{itemName.total_price}}元</view>
+        <view wx:for="{{itemName.detail}}" wx:for-index="index" wx:for-item="itemFoods" wx:key="id" > 
+           <view class="item">{{itemFoods.food.food_name}}:   {{itemFoods.num}}份   单价￥{{itemFoods.food.price|Int}}</view>
+        </view>
+      </view>
+    </scroll-view>
+</view>
+

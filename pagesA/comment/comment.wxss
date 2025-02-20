@@ -6,12 +6,12 @@
 
 .username, .date, .like {
   font-size: 10pt;
-  padding-bottom: 1rpx;
+  padding-bottom: 2rpx;
 }
 
 .like{
-  padding-top: 3rpx;
-  /**padding-left: 115rpx;**/
+  padding-top: 1rpx;
+  padding-left: 1rpx;
 }
 
 .header {

@@ -4,88 +4,37 @@
 <view class="page">
   <view class="page__hd header">
     <view class="page__title">吃过，所以留下足迹</view>
-    <view class="page__desc">我是XX</view>
+    <view class="page__desc">我是过客匆匆</view>
   </view>
   <view class="weui-uploader__bd">
     <button bindtap="chooseImage" class="weui-btn" size="mini">晒图</button>
+    
     <!-- <view bindtap="chooseImage" class="weui-btn">--选择图片--</view> -->
       <view class="imgs">
-        <image wx:if = "{{imgList}}" src = "{{imgList}}" class="imgList" mode="widthFix"></image>
-        <!-- <image src="{{ imgUrl }}" class="imgList"></image> -->
+        <image wx:if = "{{pic}}" src = "{{pic[0]}}" class="imgList" mode="widthFix"></image>
+        <!-- <image wx:if = "{{imgList}}" src = "{{imgList}}" class="imgList" mode="widthFix"></image> -->
       </view>
-
+      <!-- <text>\n</text> -->
   </view>
-  <!-- <view class="page__bd">
-    <view class="weui-cells">
-      <view class="weui-cell">
-        <view class="weui-cell__bd">
-          <view class="weui-uploader">
-            <view class="weui-uploader__hd">
-              <view class="weui-uploader__title">晒图</view>
-            </view>
-            <view class="weui-uploader__bd">
-              <view class="weui-uploader__files" id="uploaderFiles">
-                <block wx:for="{{needUploadFiles}}" wx:key="*this">
-                  <view class="weui-uploader__file" data-type="UploadView" bind:longpress="longTapConfirm" data-id="{{item}}">
-                    <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
-                  </view>
-                </block>
-              </view>
-              <view class="weui-uploader__input-box">
-                <view class="weui-uploader__input" bindtap="chooseImage"></view>
-              </view>
-            </view>
-          </view>
-        </view>
-      </view>
-  </view>
-    <!-- <div class="weui-cell">
-      <div class="weui-cell__bd">
-          <textarea class="weui-textarea" placeholder="请输入文本"></textarea>
-      </div>
-    </div> -->
+ 
   <div class="weui-uploader__bd">  
     <form bindreset="formReset">  
         <view style='position: fixed; width: 100%;'>   
           <!-- <input name="input" placeholder="添加标题" class='inp' value='{{form_info}}'/> -->
-          <input name="title" placeholder="请输入标题" bindinput="companyTitle"/>
-          <!-- <input name="number" placeholder="请输入评论内容" bindinput="companyNumber"/> -->
-          <!-- <textarea class="detailText" value="{{details}}" textarea fixed="true" placeholder="添加评论内容..." name="number" value='{{form_info}}'>  
-          </textarea>  -->
-          <textarea class="input" name="number" placeholder="请输入评论内容，少于200字。"  bindinput="companyNumber">
+          <input name="title" placeholder=" 请输入标题" bindinput="companyTitle"/>
+          <!-- <text>\n</text> -->
+          <textarea class="input" name="number" placeholder=" 请输入评论内容，少于200字。"  bindinput="companyNumber">
           </textarea>
       
           <view class="button-container">
             <view class="centered-btn">
               <button form-type="submit" class="weui-btn" bindtap='formSubmit' size="mini">评论</button>
               <button form-type="reset" class="weui-btn" size="mini">取消</button>
-              <!-- <button class="weui-btn" size="mini">按钮</button> -->
-              <!-- <button class="weui-btn">按钮</button> -->
+
             </view>
           </view>
         </view>
-          <!-- <button class="weui-btn-area" type="primary" bindtap='uploadFiles'>确认上传</button>
-          <button class="weui-btn" type="primary" bindtap='downloadFile'>下载图片</button>
-          <button class="weui-btn" type="primary" bindtap='deleteBackup'>删除图片</button>
-          <button class="weui-btn" type="primary" bindtap='d'>评论</button>
-          <button class="weui-btn" type="primary" bindtap='deleteBackup'>返回</button> -->
-          <!-- </view>
-            <view class='an1'>     
-            <button form-type="submit" class='weui-btn'>发布</button> 
-            </view> 
-          </view> -->
+
     </form>
   </div>
 </view>
-
-
-
-
-    <!-- 已上传图片 -->
-     <!-- <view class="weui-cells">
-      <view class="text-center">已备份图片</view>
-      <view class="weui-cell" wx:for="{{downloadedBackupedFiles}}">
-        <image class="" src="{{item}}" mode="aspectFill" data-index="{{index}}" data-type="DownloadedView" bindlongtap="longTapConfirm" />
-      </view>
-      <view class='text-center' wx:if="{{downloadedBackupedFiles.length == 0}}">暂无</view>
-     </view> -->

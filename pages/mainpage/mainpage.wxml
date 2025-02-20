@@ -1,0 +1,9 @@
+<!--index.wxml-->
+<view class="container1">
+      <image style="width:100%; height: 680rpx;" src="../../images/ditu2.jpg"></image>
+      <image class="icon" src="../../images/dian.png" bindtap="toOrder"></image>
+      <text class="weui-grid__label1" bindtap="toOrder">点餐</text>
+      <text class="weui-grid__label2">在线点餐不排队</text>
+      <image style="width: 100%; height: 320rpx; margin-top: 15px;" src="../../images/ditu1.jpg"></image>
+</view>
+

@@ -1,26 +1,53 @@
 {
   "pages": [
+    "pages/mainpage/mainpage",
     "pages/index/index",
     "pages/logs/logs",
     "pages/menu/menu",
     "pages/submit/submit",
-    "pages/payment/payment"
-    ],
-    "subpackages": [
-      {
-        "root": "pagesA",
-        "pages": [
-          "comment/comment",
-          "mycomment/mycomment",
-          "business/business"
-        ]
-      }
-        ],
-  
+    "pages/payment/payment",
+    "pages/myorder/myorder"   
+  ],
+  "subpackages": [
+    {
+      "root": "pagesA",
+      "pages": [
+        "comment/comment",
+        "mycomment/mycomment",
+        "business/business"
+      ]
+    }
+  ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#ff9537",
-    "navigationBarTitleText": "六和点菜",
+    "navigationBarTitleText": "品味六和居",
     "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#a9b7b7",
+    "selectedColor": "#f4645f",
+    "borderStyle": "white",
+    "list": [
+      {
+        "selectedIconPath": "images/zhu1.png",
+        "iconPath": "images/zhu1.png",
+        "pagePath": "pages/mainpage/mainpage",
+        "text": "首页"
+      },
+      {
+        "selectedIconPath": "images/dan1.png",
+        "iconPath": "images/dan1.png",
+        "pagePath": "pages/index/index",
+        "text": "下单"
+      },
+      {
+        "selectedIconPath": "images/geren1.png",
+        "iconPath": "images/geren1.png",
+        "pagePath": "pages/myorder/myorder",
+        "text": "我的"
+      }
+    ],
+    "position": "bottom"
   }
 }

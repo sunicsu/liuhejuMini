@@ -5,15 +5,11 @@ const cookieUtil = require('../../utils/cookie/Cookie.js')
 
 Page({
   data: {
-    // 需要上传的图片
-    needUploadFiles: [],
-    // 已下载的备份图片
-    downloadedBackupedFiles: [],
-    img_arr: [],
-    title: "",
-    number: "",
+    title: '',
+    number: '',
     // 存放微信图片地址
-    imgList: "",
+    // imgList: '',
+    pic: ''
   },
 
      // 标题
@@ -25,86 +21,108 @@ Page({
   companyNumber: function(e) {
       this.setData({ number: e.detail.value })
     },
-  // 选择图片上传
-  chooseImage: function(e) {
-    var that = this;
+  
+  
+  chooseImage() {
+    let that = this
+    // 图片限制大小
+    const fileLimit = 2 * 1024 * 1024
+    // 选择图片原图或是压缩图
     wx.chooseMedia({
-			count: 1, // 选择的图片个数，默认值9
-			mediaType: ['image'], // 文件类型
-			sizeType: ['original'], // 是否压缩所选文件
-			sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-			success: res => {
-				// console.log(res);
-				that.setData({
-					imgList: res.tempFiles[0].tempFilePath
-        })
-        // console.log(that.data.imgList);
-        console.log(res);
-        // console.log("img-url:", res.tempFiles[0].tempFilePath)
-        wx.showToast({
-          title: '已选择图片',
-          icon: 'none'
-        })
-      },
-      fail: res => {
-        wx.showToast({
-          title: '未选择图片',
-          icon: 'none'
-        })
-      }
-    })
-  },
-
-  // 上传图片文件
-  uploadFiles: function() {
-    // var that = this
-    var value = cookieUtil.getCookieFromStorage('cookie')
-    console.log('get cookie', value)
-    var header = {}
-    header.Cookie = value
-    for (var i = 0; i < this.data.needUploadFiles.length; i ++){
-      var filePath = this.data.needUploadFiles[i]
-      wx.uploadFile({
-        url: app.globalData.baseUrl + '/upload_image',
-        filePath: filePath,
-        header: header,
-        name: 'test',
-        success: function(res){
-          console.log(res)
+        sizeType: ['original', 'compressed'],
+        count: 1,
+        mediaType: ['image'],
+        sourceType: ['album', 'camera'],
+        success: async function (res) {
+            let tempFiles = res.tempFiles
+            if (tempFiles.length) {
+                for (let i = 0; i < tempFiles.length; i++) {
+                    let filePath = tempFiles[i].tempFilePath
+                    const size = tempFiles[i].size / 1024 / 1024;
+                    that.setData({
+                        sizeBefore: size,
+                    })
+                    // 图片超过大小限制
+                    // 手动压缩
+                    filePath = await that.compressFile(filePath, i, tempFiles[i].size)
+                    // 上传图片
+                    that.setData({
+                        pic: [filePath] // 将图片路径设置到数据中，用于在页面上显示
+                    });
+                    // 获取压缩后图片的信息，包括大小等
+                    wx.getFileSystemManager().getFileInfo({
+                        filePath: filePath,
+                        success: fileInfo => {
+                            that.setData({
+                                compressSize: fileInfo.size / 1024 / 1024
+                            })
+                        },
+                        fail: err => {
+                            console.error('获取压缩后图片信息失败:', err);
+                        }
+                    });
+                }
+            }
         }
-      })
-    }
+    })
+},
+  
+  compressFile(src, i, size) {
+    let that = this
+    return new Promise((resolve) => {
+        // 获取图片信息
+        wx.getImageInfo({
+            src,
+            success: (img) => {
+                let imgWidth = img.width
+                let imgHeight = img.height
+                //这段必看！！！！
+                  const windowWidth= wx.getSystemSetting().windowWidth;
+                    let imgRatio = imgHeight/imgWidth;
+                    that.setData({
+                        compressH: windowWidth * imgRatio
+                    })
+                    that.compressImage(src, size).then(res => {
+                        resolve(res)
+                    })
+            },
+            fail: () => {
+                that.compressImage(src, size).then(res => {
+                    resolve(res)
+                })
+            }
+        })
+    })
   },
-
-  // 下载图片
-  downloadFile: function (imgItem) {
-    var that = this
-    wx.downloadFile({
-      url: app.globalData.serverUrl + app.globalData.apiVersion + '/service/image' + '?md5=' + '1ad78e3e075fd648882ba5299728369b',
-      success: function(res){
-        var tmpPath = res.tempFilePath
-        var newDownloadedBackupedFiles = that.data.downloadedBackupedFiles
-        newDownloadedBackupedFiles.push(tmpPath)
+  compressImage(src, size) {
+    let that = this
+    return new Promise((resolve, reject) => {
+        let quality = 100
+        // ios因为自己有压缩机制，压缩到极致就不会再压，因此往小了写
+        if (this.data.isIOS) {
+            quality = 0.1
+        } else {
+            let temp = 30 - parseInt(size / 1024 / 1024)
+            quality = temp < 10 ? 10 : temp
+        }
         that.setData({
-          downloadedBackupedFiles: newDownloadedBackupedFiles
+            quality: quality //测试后 ios 0.1  安卓压缩仅对jpg图片压缩
         })
-      }
+        wx.compressImage({
+            src, // 图片路径
+            quality: 10, // 压缩质量
+            success: function (res) {
+                console.log('官方API压缩res', res, quality)
+
+                resolve(res.tempFilePath)
+            },
+            fail: function (err) {
+                resolve(src)
+            }
+        })
     })
   },
 
-  // 删除图片
-  deleteBackup: function(imgItem){
-    wx.request({
-      url: app.globalData.serverUrl + app.globalData.apiVersion + '/service/image' + '?md5=' + '1ad78e3e075fd648882ba5299728369b',
-      method: 'DELETE',
-      success: function(res){
-        console.log(res.data)
-        wx.showToast({
-          title: '删除成功',
-        })
-      }
-    })
-  },
 
  //判断是否填完整，并将input中的数据上传到服务器  
  formSubmit: function (e) { 
@@ -113,7 +131,7 @@ Page({
     console.log('get cookie', value)
     var header = {}
     header.Cookie = value
-    var alreadyChoosedImageList = this.data.imgList;
+    var alreadyChoosedImageList = this.data.pic[0];
     var title = this.data.title
     var number = this.data.number
     // 上传图片
