@@ -6,7 +6,8 @@
     "pages/menu/menu",
     "pages/submit/submit",
     "pages/payment/payment",
-    "pages/myorder/myorder"   
+    "pages/myorder/myorder" ,
+    "pages/shop/shop"  
   ],
   "subpackages": [
     {
@@ -46,6 +47,12 @@
         "iconPath": "images/geren1.png",
         "pagePath": "pages/myorder/myorder",
         "text": "我的"
+      },
+      {
+        "selectedIconPath": "images/shop1.png",
+        "iconPath": "images/shop1.png",
+        "pagePath": "pages/shop/shop",
+        "text": "店铺"
       }
     ],
     "position": "bottom"

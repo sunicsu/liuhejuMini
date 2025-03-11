@@ -1,0 +1,22 @@
+<!--pages/shop.wxml-->
+<view class="container">    
+  <view class="input-container" wx:if="{{!showLogin}}">
+    <view>
+      <view style="margin-bottom: 10px;">本页面只对店铺管理员开放，请您输入管理员的用户名和密码。</view>
+      <input class="centered-input" type="text" placeholder="请输入用户名" bindinput="onUsernameInput" />
+      <input class="centered-input" type="password" placeholder="请输入密码" bindinput="onPasswordInput" />
+      <button type="primary" bindtap="onLoginTap">登录</button>
+    </view>
+
+  </view>
+  <view class="top-view" wx:if="{{showLogin}}">
+    <view>今日预订桌数：{{totalprice}}桌</view> 
+    <view>今日收入共计：{{totalprice}}元</view> 
+    <view>本周预订桌数：{{totalprice}}桌</view> 
+    <view>本周收入共计：{{totalprice}}元</view> 
+    <button bindtap="weekly_dish_sales">本周热销菜品</button> 
+    <view wx:for="{{hotdish}}" wx:key="index" wx:for-item="item" >
+          菜名：{{item.food__name}},  共销售{{item.sales_count}}份。
+    </view>
+  </view>
+</view>
