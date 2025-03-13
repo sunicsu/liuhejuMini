@@ -23,7 +23,7 @@
   margin: auto;
   padding: 5rpx; /* 设置内边距 */
   margin-bottom: 20rpx;
-  font-size: 16px; /* 设置字体大小 */
+  font-size: 15px; /* 设置字体大小 */
   border: 1px solid #ccc;
   box-sizing: border-box; /* 设置盒模型为border-box */
 }
@@ -38,7 +38,7 @@
 
 button {
   width: 200rpx;
-  font-size:35rpx;
+  font-size:40rpx;
   line-height:70rpx;
   text-align: center; 
   margin-top: 10px; 
@@ -46,3 +46,16 @@ button {
   border-radius: 5px;
   padding: 0 0;
 }
+
+.button1 {
+  width: 300rpx;
+  height: 70rpx;
+  font-size:40rpx;
+  line-height:65rpx;
+  text-align: center; 
+  margin-top: 15rpx; 
+  margin-bottom: 15rpx;
+  border-radius: 5px;
+  padding: 0 0;
+}
+

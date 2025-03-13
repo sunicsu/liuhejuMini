@@ -140,7 +140,7 @@ Page({
     //debugger
     if(index === -1) { 
       //The food_id is 159 in the Online environment, otherwise it is 46 in the development environment.
-      cart.push({food_id: 46, food_name: "小料、筷子", price: 6, num: people_num, checked: true})
+      cart.push({food_id: 159, food_name: "小料、筷子", price: 6, num: people_num, checked: true})
       wx.setStorageSync('cartDish' + id, cart)
     } else {
       cart[index].num = people_num

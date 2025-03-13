@@ -3,7 +3,13 @@ const app = getApp()
 const cookieUtil = require('../../utils/cookie/Cookie.js')
 Page({
   data: {
-    totalprice: 0,
+    day1: 1,
+    day7: 7,
+    today_totalprice: 0,
+    today_tablenum: 0,
+    week_totalprice: 0,
+    week_tablenum: 0,
+    average_price: 0,
     showLogin: false,
     // showSummary:true,
     username:'',
@@ -15,26 +21,7 @@ Page({
 
   },
   onReady() {
-    var that = this
-    var value = cookieUtil.getCookieFromStorage('cookie')
-    console.log('get cookie', value)
-    var header = {}
-    header.Cookie = value
-    wx.request({
-      url: getApp().globalData.baseUrl + '/today_orders/4',
-      method: 'GET',
-      header: header,
-      success: function(res) {
-        console.log('got res',res)
-        // wx.hideToast();
-        that.setData({
-          totalprice: res.data
-        })
-
-      console.log('get totalprice', that.data.totalprice)
-      },
-    })
-
+    
   },
   onShow: function () {
     this.onReady()//再次加载，实现返回上一页页面刷新
@@ -103,7 +90,7 @@ Page({
   weekly_dish_sales(){
     var that = this
     var value = cookieUtil.getCookieFromStorage('cookie')
-    console.log('get cookie', value)
+    // console.log('get cookie', value)
     var header = {}
     header.Cookie = value
     wx.request({
@@ -119,7 +106,47 @@ Page({
         // console.log('got res',that.data)
       },
     })
+  },
+
+  sales(event){
+    var that = this
+    const args = event.currentTarget.dataset.args;
+    const {days} = args;
+    var value = cookieUtil.getCookieFromStorage('cookie')
+    // console.log('get cookie', value)
+    var header = {}
+    header.Cookie = value
+    wx.request({
+      url: getApp().globalData.baseUrl + '/today_orders/4/' + days,
+      method: 'GET',
+      header: header,
+      success: function(res) {
+        // console.log('got res',res.data.total_price)
+        // wx.hideToast();
+        let totalPrice = parseFloat(res.data.total_price)
+        let averagePrice = parseFloat(res.data.average_price)
+        var count = totalPrice.toFixed(2)
+        var average = averagePrice.toFixed(2)
+        if (days == 1) {
+            that.setData({
+              today_totalprice: count,
+              // average_price: average,
+              today_tablenum: res.data.total_table_num,
+          })
+        } else {
+          that.setData({
+            week_totalprice: count,
+            average_price: average,
+            week_tablenum: res.data.total_table_num,
+          })
+        }
+       
+      // console.log('get totalprice', that.data.totalprice)
+      },
+    })
+
   }
+
 });
 
 
